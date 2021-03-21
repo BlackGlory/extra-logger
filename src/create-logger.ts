@@ -16,37 +16,37 @@ export function createLogger<T>(
 , defaultTransport: (log: T) => void = console.log
 ) {
   return {
-    trace(createLog: T | Getter<T>, transport: (log: T) => void = defaultTransport): void {
+    trace<U extends T>(createLog: U | Getter<U>, transport: (log: U) => void = defaultTransport): void {
       if (getValue(getLevel) > Level.Trace) return
 
       transport(getValue(createLog))
     }
 
-  , debug(createLog: T | Getter<T>, transport: (log: T) => void = defaultTransport): void {
+  , debug<U extends T>(createLog: U | Getter<U>, transport: (log: U) => void = defaultTransport): void {
       if (getValue(getLevel) > Level.Debug) return
 
       transport(getValue(createLog))
     }
 
-  , info(createLog: T | Getter<T>, transport: (log: T) => void = defaultTransport): void {
+  , info<U extends T>(createLog: U | Getter<U>, transport: (log: U) => void = defaultTransport): void {
       if (getValue(getLevel) > Level.Info) return
 
       transport(getValue(createLog))
     }
 
-  , warn(createLog: T | Getter<T>, transport: (log: T) => void = defaultTransport): void {
+  , warn<U extends T>(createLog: U | Getter<U>, transport: (log: U) => void = defaultTransport): void {
       if (getValue(getLevel) > Level.Warn) return
 
       transport(getValue(createLog))
     }
 
-  , error(createLog: T | Getter<T>, transport: (log: T) => void = defaultTransport): void {
+  , error<U extends T>(createLog: U | Getter<U>, transport: (log: U) => void = defaultTransport): void {
       if (getValue(getLevel) > Level.Error) return
 
       transport(getValue(createLog))
     }
 
-  , fatal(createLog: T | Getter<T>, transport: (log: T) => void = defaultTransport): void {
+  , fatal<U extends T>(createLog: U | Getter<U>, transport: (log: U) => void = defaultTransport): void {
       if (getValue(getLevel) > Level.Fatal) return
 
       transport(getValue(createLog))
