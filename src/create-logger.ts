@@ -1,55 +1,91 @@
 import { isFunction } from '@blackglory/types'
 import { Getter } from 'hotypes'
-
-export enum Level {
-  Trace = 1
-, Debug = 2
-, Info = 3
-, Warn = 4
-, Error = 5
-, Fatal = 6
-, None = Infinity
-}
+import { Level } from './level'
+import { consoleTransports } from './console-transports'
+import { ITransport, ITransports } from './types'
 
 export function createLogger<T>(
   getLevel: Level | Getter<Level>
-, defaultTransport: (log: T) => void = console.log
+, defaultTransport?: ITransport<T> | Partial<ITransports<T>>
 ) {
   return {
-    trace<U extends T>(createLog: U | Getter<U>, transport: (log: U) => void = defaultTransport): void {
-      if (getValue(getLevel) > Level.Trace) return
+    trace<U extends T>(createLog: U | Getter<U>, transport?: ITransport<U>): void {
+      const level = getValue(getLevel)
+      if (level > Level.Trace) return
 
-      transport(getValue(createLog))
+      const log = getValue(createLog)
+      if (transport) {
+        transport(log)
+      } else if (isFunction(defaultTransport)) {
+        defaultTransport(log)
+      } else {
+        ;(defaultTransport?.[Level.Trace] ?? consoleTransports[Level.Trace])(log)
+      }
     }
 
-  , debug<U extends T>(createLog: U | Getter<U>, transport: (log: U) => void = defaultTransport): void {
+  , debug<U extends T>(createLog: U | Getter<U>, transport?: ITransport<U>): void {
       if (getValue(getLevel) > Level.Debug) return
 
-      transport(getValue(createLog))
+      const log = getValue(createLog)
+      if (transport) {
+        transport(log)
+      } else if (isFunction(defaultTransport)) {
+        defaultTransport(log)
+      } else {
+        ;(defaultTransport?.[Level.Debug] ?? consoleTransports[Level.Debug])(log)
+      }
     }
 
-  , info<U extends T>(createLog: U | Getter<U>, transport: (log: U) => void = defaultTransport): void {
+  , info<U extends T>(createLog: U | Getter<U>, transport?: ITransport<U>): void {
       if (getValue(getLevel) > Level.Info) return
 
-      transport(getValue(createLog))
+      const log = getValue(createLog)
+      if (transport) {
+        transport(log)
+      } else if (isFunction(defaultTransport)) {
+        defaultTransport(log)
+      } else {
+        ;(defaultTransport?.[Level.Info] ?? consoleTransports[Level.Info])(log)
+      }
     }
 
-  , warn<U extends T>(createLog: U | Getter<U>, transport: (log: U) => void = defaultTransport): void {
+  , warn<U extends T>(createLog: U | Getter<U>, transport?: ITransport<U>): void {
       if (getValue(getLevel) > Level.Warn) return
 
-      transport(getValue(createLog))
+      const log = getValue(createLog)
+      if (transport) {
+        transport(log)
+      } else if (isFunction(defaultTransport)) {
+        defaultTransport(log)
+      } else {
+        ;(defaultTransport?.[Level.Warn] ?? consoleTransports[Level.Warn])(log)
+      }
     }
 
-  , error<U extends T>(createLog: U | Getter<U>, transport: (log: U) => void = defaultTransport): void {
+  , error<U extends T>(createLog: U | Getter<U>, transport?: ITransport<U>): void {
       if (getValue(getLevel) > Level.Error) return
 
-      transport(getValue(createLog))
+      const log = getValue(createLog)
+      if (transport) {
+        transport(log)
+      } else if (isFunction(defaultTransport)) {
+        defaultTransport(log)
+      } else {
+        ;(defaultTransport?.[Level.Error] ?? consoleTransports[Level.Error])(log)
+      }
     }
 
-  , fatal<U extends T>(createLog: U | Getter<U>, transport: (log: U) => void = defaultTransport): void {
+  , fatal<U extends T>(createLog: U | Getter<U>, transport?: ITransport<U>): void {
       if (getValue(getLevel) > Level.Fatal) return
 
-      transport(getValue(createLog))
+      const log = getValue(createLog)
+      if (transport) {
+        transport(log)
+      } else if (isFunction(defaultTransport)) {
+        defaultTransport(log)
+      } else {
+        ;(defaultTransport?.[Level.Fatal] ?? consoleTransports[Level.Fatal])(log)
+      }
     }
   }
 }

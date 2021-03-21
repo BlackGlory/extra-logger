@@ -1,4 +1,5 @@
-import { createLogger, Level } from '@src/create-logger'
+import { createLogger } from '@src/create-logger'
+import { Level } from '@src/level'
 
 describe('createLogger(getLevel: Level, defaultTransport: (log: T) => void)', () => {
   describe('trace(log: T): void', () => {

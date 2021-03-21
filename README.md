@@ -30,13 +30,24 @@ enum Level {
 ```ts
 function createLogger<T>(
   getLevel: Level | Getter<Level>
-, defaultTransport: (log: T) => void = console.log
+, defaultTransport?: ITransport<T> | Partial<ITransports<T>>
 ): {
-  trace(createLog: T | Getter<T>, transport: (log: T) => void = defaultTransport): void
-  debug(createLog: T | Getter<T>, transport: (log: T) => void = defaultTransport): void
-  info(createLog: T | Getter<T>, transport: (log: T) => void = defaultTransport): void
-  warn(createLog: T | Getter<T>, transport: (log: T) => void = defaultTransport): void
-  error(createLog: T | Getter<T>, transport: (log: T) => void = defaultTransport): void
-  fatal(createLog: T | Getter<T>, transport: (log: T) => void = defaultTransport): void
+  trace<U extends T>(createLog: U | Getter<U>, transport?: ITransport<U>): void
+  debug<U extends T>(createLog: U | Getter<U>, transport?: ITransport<U>): void
+  info<U extends T>(createLog: U | Getter<U>, transport?: ITransport<U>): void
+  warn<U extends T>(createLog: U | Getter<U>, transport?: ITransport<U>): void
+  error<U extends T>(createLog: U | Getter<U>, transport?: ITransport<U>): void
+  fatal<U extends T>(createLog: U | Getter<U>, transport?: ITransport<U>): void
+}
+
+type ITransport<T> = (log: T) => void
+
+interface ITransports<T> {
+  [Level.Trace]: ITransport<T>
+  [Level.Debug]: ITransport<T>
+  [Level.Info]: ITransport<T>
+  [Level.Warn]: ITransport<T>
+  [Level.Error]: ITransport<T>
+  [Level.Fatal]: ITransport<T>
 }
 ```
