@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.2](https://github.com/BlackGlory/extra-logger/compare/v0.2.1...v0.2.2) (2021-04-11)
+
+
+### Features
+
+* add ILogger ([43582e4](https://github.com/BlackGlory/extra-logger/commit/43582e40984935964638bf0f5f8fb15b8dc6c0c6))
+
 ### [0.2.1](https://github.com/BlackGlory/extra-logger/compare/v0.2.0...v0.2.1) (2021-03-21)
 
 
