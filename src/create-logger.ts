@@ -2,12 +2,12 @@ import { isFunction } from '@blackglory/types'
 import { Getter } from 'hotypes'
 import { Level } from './level'
 import { consoleTransports } from './console-transports'
-import { ITransport, ITransports } from './types'
+import { ITransport, ITransports, ILogger } from './types'
 
 export function createLogger<T>(
   getLevel: Level | Getter<Level>
 , defaultTransport?: ITransport<T> | Partial<ITransports<T>>
-) {
+): ILogger<T> {
   return {
     trace<U extends T>(createLog: U | Getter<U>, transport?: ITransport<U>): void {
       const level = getValue(getLevel)
