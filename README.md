@@ -15,30 +15,48 @@ yarn add extra-logger
 type ITransport<T> = (log: T) => void
 
 interface ILog<T = unknown> {
-  trace: T
-  debug: T
-  info: T
-  warn: T
-  error: T
-  fatal: T
+  [Level.Trace]: T
+  [Level.Debug]: T
+  [Level.Info]: T
+  [Level.Warn]: T
+  [Level.Error]: T
+  [Level.Fatal]: T
 }
 
 interface ITransports<T extends ILog> {
-  [Level.Trace]: ITransport<T['trace']>
-  [Level.Debug]: ITransport<T['debug']>
-  [Level.Info]: ITransport<T['info']>
-  [Level.Warn]: ITransport<T['warn']>
-  [Level.Error]: ITransport<T['error']>
-  [Level.Fatal]: ITransport<T['fatal']>
+  [Level.Trace]: ITransport<T[Level.Trace]>
+  [Level.Debug]: ITransport<T[Level.Debug]>
+  [Level.Info]: ITransport<T[Level.Info]>
+  [Level.Warn]: ITransport<T[Level.Warn]>
+  [Level.Error]: ITransport<T[Level.Error]>
+  [Level.Fatal]: ITransport<T[Level.Fatal]>
 }
 
 interface ILogger<T extends Partial<ILog>> {
-  trace<U extends T['trace']>(createLog: U | Getter<U>, transport?: ITransport<U>): void
-  debug<U extends T['debug']>(createLog: U | Getter<U>, transport?: ITransport<U>): void
-  info<U extends T['info']>(createLog: U | Getter<U>, transport?: ITransport<U>): void
-  warn<U extends T['warn']>(createLog: U | Getter<U>, transport?: ITransport<U>): void
-  error<U extends T['error']>(createLog: U | Getter<U>, transport?: ITransport<U>): void
-  fatal<U extends T['fatal']>(createLog: U | Getter<U>, transport?: ITransport<U>): void
+  trace<U extends T[Level.Trace]>(
+    createLog: U | Getter<U>
+  , transport?: ITransport<U>
+  ): void
+  debug<U extends T[Level.Debug]>(
+    createLog: U | Getter<U>
+  , transport?: ITransport<U>
+  ): void
+  info<U extends T[Level.Info]>(
+    createLog: U | Getter<U>
+  , transport?: ITransport<U>
+  ): void
+  warn<U extends T[Level.Warn]>(
+    createLog: U | Getter<U>
+  , transport?: ITransport<U>
+  ): void
+  error<U extends T[Level.Error]>(
+    createLog: U | Getter<U>
+  , transport?: ITransport<U>
+  ): void
+  fatal<U extends T[Level.Fatal]>(
+    createLog: U | Getter<U>
+  , transport?: ITransport<U>
+  ): void
 }
 ```
 
@@ -64,19 +82,19 @@ function createLogger<TTrace, TDebug, TInfo, TWarn, TError, TFatal>(
 , defaultTransport?:
   | ITransport<TTrace | TDebug | TInfo | TWarn | TError | TFatal>
   | Partial<ITransports<{
-      trace: TTrace
-      debug: TDebug
-      info: TInfo
-      warn: TWarn
-      error: TError
-      fatal: TFatal
+      [Level.Trace]: TTrace
+      [Level.Debug]: TDebug
+      [Level.Info]: TInfo
+      [Level.Warn]: TWarn
+      [Level.Error]: TError
+      [Level.Fatal]: TFatal
     }>>
 ): ILogger<{
-  trace: TTrace
-  debug: TDebug
-  info: TInfo
-  warn: TWarn
-  error: TError
-  fatal: TFatal
-}>
+  [Level.Trace]: TTrace
+  [Level.Debug]: TDebug
+  [Level.Info]: TInfo
+  [Level.Warn]: TWarn
+  [Level.Error]: TError
+  [Level.Fatal]: TFatal
+}> {
 ```

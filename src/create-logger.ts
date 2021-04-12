@@ -9,20 +9,20 @@ export function createLogger<TTrace, TDebug, TInfo, TWarn, TError, TFatal>(
 , defaultTransport?:
   | ITransport<TTrace | TDebug | TInfo | TWarn | TError | TFatal>
   | Partial<ITransports<{
-      trace: TTrace
-      debug: TDebug
-      info: TInfo
-      warn: TWarn
-      error: TError
-      fatal: TFatal
+      [Level.Trace]: TTrace
+      [Level.Debug]: TDebug
+      [Level.Info]: TInfo
+      [Level.Warn]: TWarn
+      [Level.Error]: TError
+      [Level.Fatal]: TFatal
     }>>
 ): ILogger<{
-  trace: TTrace
-  debug: TDebug
-  info: TInfo
-  warn: TWarn
-  error: TError
-  fatal: TFatal
+  [Level.Trace]: TTrace
+  [Level.Debug]: TDebug
+  [Level.Info]: TInfo
+  [Level.Warn]: TWarn
+  [Level.Error]: TError
+  [Level.Fatal]: TFatal
 }> {
   return {
     trace<T extends TTrace>(
