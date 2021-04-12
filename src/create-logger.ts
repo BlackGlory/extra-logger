@@ -4,12 +4,31 @@ import { Level } from './level'
 import { consoleTransports } from './console-transports'
 import { ITransport, ITransports, ILogger } from './types'
 
-export function createLogger<T>(
+export function createLogger<TTrace, TDebug, TInfo, TWarn, TError, TFatal>(
   getLevel: Level | Getter<Level>
-, defaultTransport?: ITransport<T> | Partial<ITransports<T>>
-): ILogger<T> {
+, defaultTransport?:
+  | ITransport<TTrace | TDebug | TInfo | TWarn | TError | TFatal>
+  | Partial<ITransports<{
+      trace: TTrace
+      debug: TDebug
+      info: TInfo
+      warn: TWarn
+      error: TError
+      fatal: TFatal
+    }>>
+): ILogger<{
+  trace: TTrace
+  debug: TDebug
+  info: TInfo
+  warn: TWarn
+  error: TError
+  fatal: TFatal
+}> {
   return {
-    trace<U extends T>(createLog: U | Getter<U>, transport?: ITransport<U>): void {
+    trace<T extends TTrace>(
+      createLog: T | Getter<T>
+    , transport?: ITransport<T>
+    ): void {
       const level = getValue(getLevel)
       if (level > Level.Trace) return
 
@@ -23,7 +42,10 @@ export function createLogger<T>(
       }
     }
 
-  , debug<U extends T>(createLog: U | Getter<U>, transport?: ITransport<U>): void {
+  , debug<T extends TDebug>(
+      createLog: T | Getter<T>
+    , transport?: ITransport<T
+    >): void {
       if (getValue(getLevel) > Level.Debug) return
 
       const log = getValue(createLog)
@@ -36,7 +58,10 @@ export function createLogger<T>(
       }
     }
 
-  , info<U extends T>(createLog: U | Getter<U>, transport?: ITransport<U>): void {
+  , info<T extends TInfo>(
+      createLog: T | Getter<T>
+    , transport?: ITransport<T>
+    ): void {
       if (getValue(getLevel) > Level.Info) return
 
       const log = getValue(createLog)
@@ -49,7 +74,10 @@ export function createLogger<T>(
       }
     }
 
-  , warn<U extends T>(createLog: U | Getter<U>, transport?: ITransport<U>): void {
+  , warn<T extends TWarn>(
+      createLog: T | Getter<T>
+    , transport?: ITransport<T>
+    ): void {
       if (getValue(getLevel) > Level.Warn) return
 
       const log = getValue(createLog)
@@ -62,7 +90,10 @@ export function createLogger<T>(
       }
     }
 
-  , error<U extends T>(createLog: U | Getter<U>, transport?: ITransport<U>): void {
+  , error<T extends TError>(
+      createLog: T | Getter<T>
+    , transport?: ITransport<T>
+    ): void {
       if (getValue(getLevel) > Level.Error) return
 
       const log = getValue(createLog)
@@ -75,7 +106,10 @@ export function createLogger<T>(
       }
     }
 
-  , fatal<U extends T>(createLog: U | Getter<U>, transport?: ITransport<U>): void {
+  , fatal<T extends TFatal>(
+      createLog: T | Getter<T>
+    , transport?: ITransport<T>
+    ): void {
       if (getValue(getLevel) > Level.Fatal) return
 
       const log = getValue(createLog)

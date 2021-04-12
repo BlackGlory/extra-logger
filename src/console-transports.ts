@@ -1,7 +1,7 @@
-import { ITransports } from './types'
+import { ITransports, ILog } from './types'
 import { Level } from './level'
 
-export const consoleTransports: ITransports<unknown> = {
+export const consoleTransports: ITransports<ILog<unknown>> = {
   [Level.Trace]: console.trace
 , [Level.Debug]: console.debug
 , [Level.Info]: console.info
