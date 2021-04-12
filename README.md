@@ -32,7 +32,7 @@ interface ITransports<T extends ILog> {
   [Level.Fatal]: ITransport<T[Level.Fatal]>
 }
 
-interface ILogger<T extends Partial<ILog>> {
+interface ILogger<T extends Partial<ILog> = {}> {
   trace<U extends T[Level.Trace]>(
     createLog: U | Getter<U>
   , transport?: ITransport<U>
