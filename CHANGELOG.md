@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.1](https://github.com/BlackGlory/extra-logger/compare/v0.3.0...v0.3.1) (2021-04-12)
+
+
+### Features
+
+* improve interfaces ([07c6b4f](https://github.com/BlackGlory/extra-logger/commit/07c6b4fb4316dcccb801b3dbf67892942d1f5b1e))
+
 ## [0.3.0](https://github.com/BlackGlory/extra-logger/compare/v0.2.2...v0.3.0) (2021-04-12)
 
 
