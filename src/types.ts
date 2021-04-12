@@ -21,7 +21,7 @@ export interface ITransports<T extends ILog> {
   [Level.Fatal]: ITransport<T['fatal']>
 }
 
-export interface ILogger<T extends ILog> {
+export interface ILogger<T extends Partial<ILog>> {
   trace<U extends T['trace']>(createLog: U | Getter<U>, transport?: ITransport<U>): void
   debug<U extends T['debug']>(createLog: U | Getter<U>, transport?: ITransport<U>): void
   info<U extends T['info']>(createLog: U | Getter<U>, transport?: ITransport<U>): void
