@@ -1,6 +1,6 @@
 {
   "name": "extra-logger",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "The bare metal logger for experts",
   "keywords": [],
   "files": [
