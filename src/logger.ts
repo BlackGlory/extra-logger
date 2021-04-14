@@ -26,171 +26,149 @@ export class Logger<T extends Partial<ILog> = {}> implements ILogger<T> {
       }>>
   ) {}
 
-  trace<U extends T[Level.Trace]>(createLog: U | Getter<U>): void
+  trace<U extends T[Level.Trace]>(log: U): void
+  trace<U extends T[Level.Trace]>(createLog: Getter<U>): void
+  trace<U extends T[Level.Trace], V>(
+    params: V
+  , createLog: (params: V) => U
+  ): void
   trace<U extends T[Level.Trace], V>(
     collect: () => V
   , createLog: (params: V) => U
   ): void
   trace<U extends T[Level.Trace], V>(...args:
-  | [createLog: U | Getter<U>]
+  | [log: U]
+  | [createLog: Getter<U>]
+  | [params: V, createLog: (params: V) => U]
   | [collect: () => V, createLog: (params: V) => U]
   ): void {
     const level = getValue(this.getLevel)
     if (level > Level.Trace) return
 
-    let log: U
-    if (args.length === 1) {
-      const [createLog] = args
-      log = getValue(createLog)
-    } else {
-      const [collect, createLog] = args
-      log = createLog(collect())
-    }
-
-    if (isFunction(this.defaultTransport)) {
-      this.defaultTransport(log)
-    } else {
-      ;(this.defaultTransport?.[Level.Trace] ?? consoleTransports[Level.Trace])(log)
-    }
+    const log = parseArgsToGetLog(args)
+    this.callTransport(Level.Trace, log)
   }
 
-  debug<U extends T[Level.Debug]>(createLog: U | Getter<U>): void
+  debug<U extends T[Level.Debug]>(log: U): void
+  debug<U extends T[Level.Debug]>(createLog: Getter<U>): void
+  debug<U extends T[Level.Debug], V>(
+    params: V
+  , createLog: (params: V) => U
+  ): void
   debug<U extends T[Level.Debug], V>(
     collect: () => V
   , createLog: (params: V) => U
   ): void
   debug<U extends T[Level.Debug], V>(...args:
-  | [createLog: U | Getter<U>]
+  | [log: U]
+  | [createLog: Getter<U>]
+  | [params: V, createLog: (params: V) => U]
   | [collect: () => V, createLog: (params: V) => U]
   ): void {
     const level = getValue(this.getLevel)
     if (level > Level.Debug) return
 
-    let log: U
-    if (args.length === 1) {
-      const [createLog] = args
-      log = getValue(createLog)
-    } else {
-      const [collect, createLog] = args
-      log = createLog(collect())
-    }
-
-    if (isFunction(this.defaultTransport)) {
-      this.defaultTransport(log)
-    } else {
-      ;(this.defaultTransport?.[Level.Debug] ?? consoleTransports[Level.Debug])(log)
-    }
+    const log = parseArgsToGetLog(args)
+    this.callTransport(Level.Debug, log)
   }
 
-  info<U extends T[Level.Info]>(createLog: U | Getter<U>): void
+  info<U extends T[Level.Info]>(log: U): void
+  info<U extends T[Level.Info]>(createLog: Getter<U>): void
+  info<U extends T[Level.Info], V>(
+    params: V
+  , createLog: (params: V) => U
+  ): void
   info<U extends T[Level.Info], V>(
     collect: () => V
   , createLog: (params: V) => U
   ): void
   info<U extends T[Level.Info], V>(...args:
-  | [createLog: U | Getter<U>]
+  | [log: U]
+  | [createLog: Getter<U>]
+  | [params: V, createLog: (params: V) => U]
   | [collect: () => V, createLog: (params: V) => U]
   ): void {
     const level = getValue(this.getLevel)
     if (level > Level.Info) return
 
-    let log: U
-    if (args.length === 1) {
-      const [createLog] = args
-      log = getValue(createLog)
-    } else {
-      const [collect, createLog] = args
-      log = createLog(collect())
-    }
-
-    if (isFunction(this.defaultTransport)) {
-      this.defaultTransport(log)
-    } else {
-      ;(this.defaultTransport?.[Level.Info] ?? consoleTransports[Level.Info])(log)
-    }
+    const log = parseArgsToGetLog(args)
+    this.callTransport(Level.Info, log)
   }
 
-  warn<U extends T[Level.Warn]>(createLog: U | Getter<U>): void
+  warn<U extends T[Level.Warn]>(log: U): void
+  warn<U extends T[Level.Warn]>(createLog: Getter<U>): void
+  warn<U extends T[Level.Warn], V>(
+    params: V
+  , createLog: (params: V) => U
+  ): void
   warn<U extends T[Level.Warn], V>(
     collect: () => V
   , createLog: (params: V) => U
   ): void
   warn<U extends T[Level.Warn], V>(...args:
-  | [createLog: U | Getter<U>]
+  | [log: U]
+  | [createLog: Getter<U>]
+  | [params: V, createLog: (params: V) => U]
   | [collect: () => V, createLog: (params: V) => U]
   ): void {
     const level = getValue(this.getLevel)
     if (level > Level.Warn) return
 
-    let log: U
-    if (args.length === 1) {
-      const [createLog] = args
-      log = getValue(createLog)
-    } else {
-      const [collect, createLog] = args
-      log = createLog(collect())
-    }
-
-    if (isFunction(this.defaultTransport)) {
-      this.defaultTransport(log)
-    } else {
-      ;(this.defaultTransport?.[Level.Warn] ?? consoleTransports[Level.Warn])(log)
-    }
+    const log = parseArgsToGetLog(args)
+    this.callTransport(Level.Warn, log)
   }
 
-  error<U extends T[Level.Error]>(createLog: U | Getter<U>): void
+  error<U extends T[Level.Error]>(log: U): void
+  error<U extends T[Level.Error]>(createLog: Getter<U>): void
+  error<U extends T[Level.Error], V>(
+    params: V
+  , createLog: (params: V) => U
+  ): void
   error<U extends T[Level.Error], V>(
     collect: () => V
   , createLog: (params: V) => U
   ): void
   error<U extends T[Level.Error], V>(...args:
-  | [createLog: U | Getter<U>]
+  | [log: U]
+  | [createLog: Getter<U>]
+  | [params: V, createLog: (params: V) => U]
   | [collect: () => V, createLog: (params: V) => U]
   ): void {
     const level = getValue(this.getLevel)
     if (level > Level.Error) return
 
-    let log: U
-    if (args.length === 1) {
-      const [createLog] = args
-      log = getValue(createLog)
-    } else {
-      const [collect, createLog] = args
-      log = createLog(collect())
-    }
-
-    if (isFunction(this.defaultTransport)) {
-      this.defaultTransport(log)
-    } else {
-      ;(this.defaultTransport?.[Level.Error] ?? consoleTransports[Level.Error])(log)
-    }
+    const log = parseArgsToGetLog(args)
+    this.callTransport(Level.Error, log)
   }
 
-  fatal<U extends T[Level.Fatal]>(createLog: U | Getter<U>): void
+  fatal<U extends T[Level.Fatal]>(log: U): void
+  fatal<U extends T[Level.Fatal]>(createLog: Getter<U>): void
+  fatal<U extends T[Level.Fatal], V>(
+    params: V
+  , createLog: (params: V) => U
+  ): void
   fatal<U extends T[Level.Fatal], V>(
     collect: () => V
   , createLog: (params: V) => U
   ): void
   fatal<U extends T[Level.Fatal], V>(...args:
-  | [createLog: U | Getter<U>]
+  | [log: U]
+  | [createLog: Getter<U>]
+  | [params: V, createLog: (params: V) => U]
   | [collect: () => V, createLog: (params: V) => U]
   ): void {
     const level = getValue(this.getLevel)
     if (level > Level.Fatal) return
 
-    let log: U
-    if (args.length === 1) {
-      const [createLog] = args
-      log = getValue(createLog)
-    } else {
-      const [collect, createLog] = args
-      log = createLog(collect())
-    }
+    const log = parseArgsToGetLog(args)
+    this.callTransport(Level.Fatal, log)
+  }
 
+  private callTransport<T>(level: Exclude<Level, Level.None>, log: T) {
     if (isFunction(this.defaultTransport)) {
       this.defaultTransport(log)
     } else {
-      ;(this.defaultTransport?.[Level.Fatal] ?? consoleTransports[Level.Fatal])(log)
+      ;(this.defaultTransport?.[level] ?? consoleTransports[level])(log)
     }
   }
 }
@@ -200,5 +178,20 @@ function getValue<T>(param: T | Getter<T>): T {
     return param()
   } else {
     return param
+  }
+}
+
+function parseArgsToGetLog<T, U>(args:
+| [log: U]
+| [createLog: Getter<U>]
+| [params: T, createLog: (params: T) => U]
+| [collect: () => T, createLog: (params: T) => U]
+): U {
+  if (args.length === 1) {
+    const [createLog] = args
+    return getValue(createLog)
+  } else {
+    const [collect, createLog] = args
+    return createLog(getValue(collect))
   }
 }
