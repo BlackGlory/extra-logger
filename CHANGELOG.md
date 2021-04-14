@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.5.2](https://github.com/BlackGlory/extra-logger/compare/v0.5.1...v0.5.2) (2021-04-14)
+
+
+### Features
+
+* add new overload signatures ([53d5e24](https://github.com/BlackGlory/extra-logger/commit/53d5e24ee969c0359428c56651ebf9a8a07962aa))
+
 ### [0.5.1](https://github.com/BlackGlory/extra-logger/compare/v0.5.0...v0.5.1) (2021-04-14)
 
 
