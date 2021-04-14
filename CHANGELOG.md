@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.5.0](https://github.com/BlackGlory/extra-logger/compare/v0.4.1...v0.5.0) (2021-04-14)
+
+
+### ⚠ BREAKING CHANGES
+
+* parameter transports were removed
+
+### Features
+
+* remove parameter transports ([718cdfb](https://github.com/BlackGlory/extra-logger/commit/718cdfb0e1381e19a2f822c7c924feda5e9430fe))
+
 ### [0.4.1](https://github.com/BlackGlory/extra-logger/compare/v0.4.0...v0.4.1) (2021-04-12)
 
 
