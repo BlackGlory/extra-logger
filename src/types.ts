@@ -22,28 +22,10 @@ export interface ITransports<T extends ILog> {
 }
 
 export interface ILogger<T extends Partial<ILog> = {}> {
-  trace<U extends T[Level.Trace]>(
-    createLog: U | Getter<U>
-  , transport?: ITransport<U>
-  ): void
-  debug<U extends T[Level.Debug]>(
-    createLog: U | Getter<U>
-  , transport?: ITransport<U>
-  ): void
-  info<U extends T[Level.Info]>(
-    createLog: U | Getter<U>
-  , transport?: ITransport<U>
-  ): void
-  warn<U extends T[Level.Warn]>(
-    createLog: U | Getter<U>
-  , transport?: ITransport<U>
-  ): void
-  error<U extends T[Level.Error]>(
-    createLog: U | Getter<U>
-  , transport?: ITransport<U>
-  ): void
-  fatal<U extends T[Level.Fatal]>(
-    createLog: U | Getter<U>
-  , transport?: ITransport<U>
-  ): void
+  trace<U extends T[Level.Trace]>(createLog: U | Getter<U>): void
+  debug<U extends T[Level.Debug]>(createLog: U | Getter<U>): void
+  info<U extends T[Level.Info]>(createLog: U | Getter<U>): void
+  warn<U extends T[Level.Warn]>(createLog: U | Getter<U>): void
+  error<U extends T[Level.Error]>(createLog: U | Getter<U>): void
+  fatal<U extends T[Level.Fatal]>(createLog: U | Getter<U>): void
 }
