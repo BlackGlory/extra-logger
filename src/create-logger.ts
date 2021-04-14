@@ -25,97 +25,67 @@ export function createLogger<TTrace, TDebug, TInfo, TWarn, TError, TFatal>(
   [Level.Fatal]: TFatal
 }> {
   return {
-    trace<T extends TTrace>(
-      createLog: T | Getter<T>
-    , transport?: ITransport<T>
-    ): void {
+    trace<T extends TTrace>(createLog: T | Getter<T>): void {
       const level = getValue(getLevel)
       if (level > Level.Trace) return
 
       const log = getValue(createLog)
-      if (transport) {
-        transport(log)
-      } else if (isFunction(defaultTransport)) {
+      if (isFunction(defaultTransport)) {
         defaultTransport(log)
       } else {
         ;(defaultTransport?.[Level.Trace] ?? consoleTransports[Level.Trace])(log)
       }
     }
 
-  , debug<T extends TDebug>(
-      createLog: T | Getter<T>
-    , transport?: ITransport<T
-    >): void {
+  , debug<T extends TDebug>(createLog: T | Getter<T>): void {
       if (getValue(getLevel) > Level.Debug) return
 
       const log = getValue(createLog)
-      if (transport) {
-        transport(log)
-      } else if (isFunction(defaultTransport)) {
+      if (isFunction(defaultTransport)) {
         defaultTransport(log)
       } else {
         ;(defaultTransport?.[Level.Debug] ?? consoleTransports[Level.Debug])(log)
       }
     }
 
-  , info<T extends TInfo>(
-      createLog: T | Getter<T>
-    , transport?: ITransport<T>
-    ): void {
+  , info<T extends TInfo>(createLog: T | Getter<T>): void {
       if (getValue(getLevel) > Level.Info) return
 
       const log = getValue(createLog)
-      if (transport) {
-        transport(log)
-      } else if (isFunction(defaultTransport)) {
+      if (isFunction(defaultTransport)) {
         defaultTransport(log)
       } else {
         ;(defaultTransport?.[Level.Info] ?? consoleTransports[Level.Info])(log)
       }
     }
 
-  , warn<T extends TWarn>(
-      createLog: T | Getter<T>
-    , transport?: ITransport<T>
-    ): void {
+  , warn<T extends TWarn>(createLog: T | Getter<T>): void {
       if (getValue(getLevel) > Level.Warn) return
 
       const log = getValue(createLog)
-      if (transport) {
-        transport(log)
-      } else if (isFunction(defaultTransport)) {
+      if (isFunction(defaultTransport)) {
         defaultTransport(log)
       } else {
         ;(defaultTransport?.[Level.Warn] ?? consoleTransports[Level.Warn])(log)
       }
     }
 
-  , error<T extends TError>(
-      createLog: T | Getter<T>
-    , transport?: ITransport<T>
-    ): void {
+  , error<T extends TError>(createLog: T | Getter<T>): void {
       if (getValue(getLevel) > Level.Error) return
 
       const log = getValue(createLog)
-      if (transport) {
-        transport(log)
-      } else if (isFunction(defaultTransport)) {
+      if (isFunction(defaultTransport)) {
         defaultTransport(log)
       } else {
         ;(defaultTransport?.[Level.Error] ?? consoleTransports[Level.Error])(log)
       }
     }
 
-  , fatal<T extends TFatal>(
-      createLog: T | Getter<T>
-    , transport?: ITransport<T>
-    ): void {
+  , fatal<T extends TFatal>(createLog: T | Getter<T>): void {
       if (getValue(getLevel) > Level.Fatal) return
 
       const log = getValue(createLog)
-      if (transport) {
-        transport(log)
-      } else if (isFunction(defaultTransport)) {
+      if (isFunction(defaultTransport)) {
         defaultTransport(log)
       } else {
         ;(defaultTransport?.[Level.Fatal] ?? consoleTransports[Level.Fatal])(log)
