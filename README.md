@@ -101,5 +101,5 @@ function createLogger<TTrace, TDebug, TInfo, TWarn, TError, TFatal>(
   [Level.Warn]: TWarn
   [Level.Error]: TError
   [Level.Fatal]: TFatal
-}> {
+}>
 ```
