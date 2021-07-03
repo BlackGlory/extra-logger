@@ -1,4 +1,4 @@
-import { Getter } from 'hotypes'
+import { Getter } from 'justypes'
 import { isFunction } from '@blackglory/types'
 import { consoleTransports } from './console-transports'
 import { Level } from './level'

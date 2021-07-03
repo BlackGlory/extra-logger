@@ -1,6 +1,6 @@
 import { Level } from './level'
 import { ITransport, ITransports, ILogger } from './types'
-import { Getter } from 'hotypes'
+import { Getter } from 'justypes'
 import { Logger } from './logger'
 
 export function createLogger<TTrace, TDebug, TInfo, TWarn, TError, TFatal>(

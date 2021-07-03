@@ -1,5 +1,5 @@
 import { Level } from './level'
-import { Getter } from 'hotypes'
+import { Getter } from 'justypes'
 
 export type ITransport<T> = (log: T) => void
 
