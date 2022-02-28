@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.6.1](https://github.com/BlackGlory/extra-logger/compare/v0.6.0...v0.6.1) (2022-02-28)
+
+
+### Features
+
+* add elapsedTime parameter ([026a2f7](https://github.com/BlackGlory/extra-logger/commit/026a2f74cfbb18edf9fcb4496603a06eaf082415))
+
 ## [0.6.0](https://github.com/BlackGlory/extra-logger/compare/v0.5.5...v0.6.0) (2022-02-28)
 
 
