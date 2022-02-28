@@ -13,68 +13,74 @@ export interface ILoggerOptions {
 export class Logger {
   constructor(private options: ILoggerOptions) {}
 
-  trace(message: string | Getter<string>): void {
+  trace(message: string | Getter<string>, elapsedTime?: number): void {
     if (this.options.level <= Level.Trace) {
       this.options.transport.send({
         level: Level.Trace
       , message: getValue(message)
       , namespace: this.options.namespace
       , timestamp: createTimestamp()
+      , elapsedTime
       })
     }
   }
 
-  info(message: string | Getter<string>): void {
+  info(message: string | Getter<string>, elapsedTime?: number): void {
     if (this.options.level <= Level.Info) {
       this.options.transport.send({
         level: Level.Info
       , message: getValue(message)
       , namespace: this.options.namespace
       , timestamp: createTimestamp()
+      , elapsedTime
       })
     }
   }
 
-  debug(message: string | Getter<string>): void {
+  debug(message: string | Getter<string>, elapsedTime?: number): void {
     if (this.options.level <= Level.Debug) {
       this.options.transport.send({
         level: Level.Debug
       , message: getValue(message)
       , namespace: this.options.namespace
       , timestamp: createTimestamp()
+      , elapsedTime
       })
     }
   }
 
-  warn(message: string | Getter<string>): void {
+  warn(message: string | Getter<string>, elapsedTime?: number): void {
     if (this.options.level <= Level.Warn) {
       this.options.transport.send({
         level: Level.Warn
       , message: getValue(message)
       , namespace: this.options.namespace
       , timestamp: createTimestamp()
+      , elapsedTime
       })
     }
   }
 
-  error(message: string | Getter<string>): void {
+  error(message: string | Getter<string>, elapsedTime?: number): void {
     if (this.options.level <= Level.Error) {
       this.options.transport.send({
         level: Level.Error
       , message: getValue(message)
       , namespace: this.options.namespace
       , timestamp: createTimestamp()
+      , elapsedTime
       })
     }
   }
 
-  fatal(message: string | Getter<string>): void {
+  fatal(message: string | Getter<string>, elapsedTime?: number): void {
     if (this.options.level <= Level.Fatal) {
       this.options.transport.send({
         level: Level.Fatal
       , message: getValue(message)
       , namespace: this.options.namespace
       , timestamp: createTimestamp()
+      , elapsedTime
       })
     }
   }
