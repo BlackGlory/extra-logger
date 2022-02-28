@@ -35,7 +35,7 @@ export class TerminalTransport implements ITransport {
       result += ` ${formatNamespace(message.namespace)}`
     }
 
-    result += ` ${message}`
+    result += ` ${message.message}`
 
     if (isntUndefined(message.elapsedTime)) {
       result += ` ${formatElapsedTime(message.elapsedTime)}`
