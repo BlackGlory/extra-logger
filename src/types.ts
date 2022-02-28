@@ -1,54 +1,21 @@
-import { Level } from './level'
-import { Getter } from 'justypes'
-
-export type ITransport<T> = (log: T) => void
-
-export interface ILog<T = unknown> {
-  [Level.Trace]: T
-  [Level.Debug]: T
-  [Level.Info]: T
-  [Level.Warn]: T
-  [Level.Error]: T
-  [Level.Fatal]: T
+export const enum Level {
+  Trace = 1
+, Debug = 2
+, Info = 3
+, Warn = 4
+, Error = 5
+, Fatal = 6
+, None = 7
 }
 
-export interface ITransports<T extends ILog> {
-  [Level.Trace]: ITransport<T[Level.Trace]>
-  [Level.Debug]: ITransport<T[Level.Debug]>
-  [Level.Info]: ITransport<T[Level.Info]>
-  [Level.Warn]: ITransport<T[Level.Warn]>
-  [Level.Error]: ITransport<T[Level.Error]>
-  [Level.Fatal]: ITransport<T[Level.Fatal]>
+export interface ITransport {
+  send(message: IMessage): void
 }
 
-export interface ILogger<T extends Partial<ILog> = {}> {
-  trace<U extends T[Level.Trace]>(log: U): void
-  trace<U extends T[Level.Trace]>(createLog: Getter<U>): void
-  trace<U extends T[Level.Trace], V>(params: V, createLog: (params: V) => U): void
-  trace<U extends T[Level.Trace], V>(collect: () => V, createLog: (params: V) => U): void
-
-  debug<U extends T[Level.Debug]>(log: U): void
-  debug<U extends T[Level.Debug]>(createLog: Getter<U>): void
-  debug<U extends T[Level.Debug], V>(params: V, createLog: (params: V) => U): void
-  debug<U extends T[Level.Debug], V>(collect: () => V, createLog: (params: V) => U): void
-
-  info<U extends T[Level.Info]>(log: U): void
-  info<U extends T[Level.Info]>(createLog: Getter<U>): void
-  info<U extends T[Level.Info], V>(params: V, createLog: (params: V) => U): void
-  info<U extends T[Level.Info], V>(collect: () => V, createLog: (params: V) => U): void
-
-  warn<U extends T[Level.Warn]>(log: U): void
-  warn<U extends T[Level.Warn]>(createLog: Getter<U>): void
-  warn<U extends T[Level.Warn], V>(params: V, createLog: (params: V) => U): void
-  warn<U extends T[Level.Warn], V>(collect: () => V, createLog: (params: V) => U): void
-
-  error<U extends T[Level.Error]>(log: U): void
-  error<U extends T[Level.Error]>(createLog: Getter<U>): void
-  error<U extends T[Level.Error], V>(params: V, createLog: (params: V) => U): void
-  error<U extends T[Level.Error], V>(collect: () => V, createLog: (params: V) => U): void
-
-  fatal<U extends T[Level.Fatal]>(log: U): void
-  fatal<U extends T[Level.Fatal]>(createLog: Getter<U>): void
-  fatal<U extends T[Level.Fatal], V>(params: V, createLog: (params: V) => U): void
-  fatal<U extends T[Level.Fatal], V>(collect: () => V, createLog: (params: V) => U): void
+export interface IMessage {
+  level: Level
+  timestamp: number
+  message: string
+  namespace?: string
+  elapsedTime?: number
 }

@@ -1,7 +1,7 @@
 {
   "name": "extra-logger",
   "version": "0.5.5",
-  "description": "The bare metal logger for experts",
+  "description": "",
   "keywords": [],
   "files": [
     "lib",
@@ -65,6 +65,8 @@
   },
   "dependencies": {
     "@blackglory/types": "^0.6.5",
+    "chalk": "4",
+    "extra-promise": "^0.21.2",
     "justypes": "^0.1.7"
   }
 }
