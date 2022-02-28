@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.6.2](https://github.com/BlackGlory/extra-logger/compare/v0.6.1...v0.6.2) (2022-02-28)
+
+
+### Bug Fixes
+
+* output of TerminalTransport ([d343bbd](https://github.com/BlackGlory/extra-logger/commit/d343bbde56afcef995d1553e93cf8a02afe25a5d))
+
 ### [0.6.1](https://github.com/BlackGlory/extra-logger/compare/v0.6.0...v0.6.1) (2022-02-28)
 
 
