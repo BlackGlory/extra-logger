@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.6.3](https://github.com/BlackGlory/extra-logger/compare/v0.6.2...v0.6.3) (2022-03-03)
+
+
+### Features
+
+* add stringToLevel ([a19edd5](https://github.com/BlackGlory/extra-logger/commit/a19edd570eaf37467e7a5913ad0ea8159e7888ef))
+
 ### [0.6.2](https://github.com/BlackGlory/extra-logger/compare/v0.6.1...v0.6.2) (2022-02-28)
 
 
