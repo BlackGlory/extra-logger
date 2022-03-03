@@ -29,4 +29,8 @@ test('stringToLevel', () => {
   expect(stringToLevel('none')).toBe(Level.None)
   expect(stringToLevel('None')).toBe(Level.None)
   expect(stringToLevel('NONE')).toBe(Level.None)
+
+  expect(stringToLevel('')).toBe(Level.None)
+  expect(stringToLevel('', Level.None)).toBe(Level.None)
+  expect(stringToLevel('', Level.Info)).toBe(Level.Info)
 })

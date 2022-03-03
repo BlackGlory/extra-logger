@@ -82,5 +82,5 @@ class TerminalTransport implements ITransport {
 
 ### stringToLevel
 ```ts
-function stringToLevel(text: string): Level
+function stringToLevel(text: string, fallback: Level = Level.None): Level
 ```
