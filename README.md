@@ -79,3 +79,8 @@ class TerminalTransport implements ITransport {
   constructor(private options: ITerminalTransportOptions)
 }
 ```
+
+### stringToLevel
+```ts
+function stringToLevel(text: string): Level
+```
