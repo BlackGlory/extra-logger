@@ -1,4 +1,4 @@
-import { isPromiseLike } from 'extra-promise'
+import { isPromiseLike } from '@blackglory/types'
 import { ITransport, Level } from '@src/types'
 import { createTimestamp } from '@utils/create-timestamp'
 import { getValue } from '@utils/get-value'
