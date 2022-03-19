@@ -1,4 +1,4 @@
-export const enum Level {
+export enum Level {
   Trace = 1
 , Debug = 2
 , Info = 3
