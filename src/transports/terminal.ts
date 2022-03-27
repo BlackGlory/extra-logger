@@ -13,7 +13,7 @@ export interface ITerminalTransportOptions {
 export class TerminalTransport implements ITransport {
   private id: number = 0
 
-  constructor(private options: ITerminalTransportOptions) {}
+  constructor(private options: ITerminalTransportOptions = {}) {}
 
   send(message: IMessage) {
     if (isUndefined(message.elapsedTime) || isUndefined(this.options.logMinimumDuration)) {

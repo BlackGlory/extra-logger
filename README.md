@@ -76,7 +76,7 @@ export interface ITerminalTransportOptions {
 }
 
 class TerminalTransport implements ITransport {
-  constructor(private options: ITerminalTransportOptions)
+  constructor(options?: ITerminalTransportOptions)
 }
 ```
 
