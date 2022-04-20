@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.6.7](https://github.com/BlackGlory/extra-logger/compare/v0.6.6...v0.6.7) (2022-04-20)
+
+
+### Features
+
+* add logTimeFunction functions ([714f798](https://github.com/BlackGlory/extra-logger/commit/714f798b8f48ead0679077423da25f7945528f18))
+
 ### [0.6.6](https://github.com/BlackGlory/extra-logger/compare/v0.6.5...v0.6.6) (2022-03-27)
 
 
