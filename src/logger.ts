@@ -15,202 +15,263 @@ export class Logger {
 
   trace(message: string | Getter<string>, elapsedTime?: number): void {
     if (this.options.level <= Level.Trace) {
-      this.options.transport.send({
-        level: Level.Trace
-      , message: getValue(message)
-      , namespace: this.options.namespace
-      , timestamp: createTimestamp()
-      , elapsedTime
-      })
+      this._trace(message, elapsedTime)
     }
   }
 
   info(message: string | Getter<string>, elapsedTime?: number): void {
     if (this.options.level <= Level.Info) {
-      this.options.transport.send({
-        level: Level.Info
-      , message: getValue(message)
-      , namespace: this.options.namespace
-      , timestamp: createTimestamp()
-      , elapsedTime
-      })
+      this._info(message, elapsedTime)
     }
   }
 
   debug(message: string | Getter<string>, elapsedTime?: number): void {
     if (this.options.level <= Level.Debug) {
-      this.options.transport.send({
-        level: Level.Debug
-      , message: getValue(message)
-      , namespace: this.options.namespace
-      , timestamp: createTimestamp()
-      , elapsedTime
-      })
+      this._debug(message, elapsedTime)
     }
   }
 
   warn(message: string | Getter<string>, elapsedTime?: number): void {
     if (this.options.level <= Level.Warn) {
-      this.options.transport.send({
-        level: Level.Warn
-      , message: getValue(message)
-      , namespace: this.options.namespace
-      , timestamp: createTimestamp()
-      , elapsedTime
-      })
+      this._warn(message, elapsedTime)
     }
   }
 
   error(message: string | Getter<string>, elapsedTime?: number): void {
     if (this.options.level <= Level.Error) {
-      this.options.transport.send({
-        level: Level.Error
-      , message: getValue(message)
-      , namespace: this.options.namespace
-      , timestamp: createTimestamp()
-      , elapsedTime
-      })
+      this._error(message, elapsedTime)
     }
   }
 
   fatal(message: string | Getter<string>, elapsedTime?: number): void {
     if (this.options.level <= Level.Fatal) {
-      this.options.transport.send({
-        level: Level.Fatal
-      , message: getValue(message)
-      , namespace: this.options.namespace
-      , timestamp: createTimestamp()
-      , elapsedTime
-      })
+      this._fatal(message, elapsedTime)
     }
   }
 
-  traceTime<T>(message: string | Getter<string>, expression: () => T): T
   traceTime<T>(message: string | Getter<string>, expression: () => PromiseLike<T>): PromiseLike<T>
+  traceTime<T>(message: string | Getter<string>, expression: () => T): T
   traceTime<T>(message: string | Getter<string>, expression: () => T | PromiseLike<T>) {
-    const self = this
     if (this.options.level <= Level.Trace) {
-      return this.measureElapsedTime(expression, log)
+      return this.measureElapsedTime(
+        expression
+      , elapsedTime => this._trace(message, elapsedTime)
+      )
     } else {
       return expression()
     }
-
-    function log(elapsedTime: number): void {
-      self.options.transport.send({
-        level: Level.Trace
-      , message: getValue(message)
-      , namespace: self.options.namespace
-      , timestamp: createTimestamp()
-      , elapsedTime
-      })
-    }
   }
 
-  infoTime<T>(message: string | Getter<string>, expression: () => T): T
   infoTime<T>(message: string | Getter<string>, expression: () => PromiseLike<T>): PromiseLike<T>
+  infoTime<T>(message: string | Getter<string>, expression: () => T): T
   infoTime<T>(message: string | Getter<string>, expression: () => T | PromiseLike<T>) {
-    const self = this
     if (this.options.level <= Level.Info) {
-      return this.measureElapsedTime(expression, log)
+      return this.measureElapsedTime(
+        expression
+      , elapsedTime => this._info(message, elapsedTime)
+      )
     } else {
       return expression()
     }
-
-    function log(elapsedTime: number): void {
-      self.options.transport.send({
-        level: Level.Info
-      , message: getValue(message)
-      , namespace: self.options.namespace
-      , timestamp: createTimestamp()
-      , elapsedTime
-      })
-    }
   }
 
-  debugTime<T>(message: string | Getter<string>, expression: () => T): T
   debugTime<T>(message: string | Getter<string>, expression: () => PromiseLike<T>): PromiseLike<T>
+  debugTime<T>(message: string | Getter<string>, expression: () => T): T
   debugTime<T>(message: string | Getter<string>, expression: () => T | PromiseLike<T>) {
-    const self = this
     if (this.options.level <= Level.Debug) {
-      return this.measureElapsedTime(expression, log)
+      return this.measureElapsedTime(
+        expression
+      , elapsedTime => this._debug(message, elapsedTime)
+      )
     } else {
       return expression()
     }
-
-    function log(elapsedTime: number): void {
-      self.options.transport.send({
-        level: Level.Debug
-      , message: getValue(message)
-      , namespace: self.options.namespace
-      , timestamp: createTimestamp()
-      , elapsedTime
-      })
-    }
   }
 
-  warnTime<T>(message: string | Getter<string>, expression: () => T): T
   warnTime<T>(message: string | Getter<string>, expression: () => PromiseLike<T>): PromiseLike<T>
+  warnTime<T>(message: string | Getter<string>, expression: () => T): T
   warnTime<T>(message: string | Getter<string>, expression: () => T | PromiseLike<T>) {
-    const self = this
     if (this.options.level <= Level.Warn) {
-      return this.measureElapsedTime(expression, log)
+      return this.measureElapsedTime(
+        expression
+      , elapsedTime => this._warn(message , elapsedTime)
+      )
     } else {
       return expression()
     }
-
-    function log(elapsedTime: number): void {
-      self.options.transport.send({
-        level: Level.Warn
-      , message: getValue(message)
-      , namespace: self.options.namespace
-      , timestamp: createTimestamp()
-      , elapsedTime
-      })
-    }
   }
 
-  errorTime<T>(message: string | Getter<string>, expression: () => T): T
   errorTime<T>(message: string | Getter<string>, expression: () => PromiseLike<T>): PromiseLike<T>
+  errorTime<T>(message: string | Getter<string>, expression: () => T): T
   errorTime<T>(message: string | Getter<string>, expression: () => T | PromiseLike<T>) {
-    const self = this
     if (this.options.level <= Level.Error) {
-      return this.measureElapsedTime(expression, log)
+      return this.measureElapsedTime(
+        expression
+      , elapsedTime => this._error(message, elapsedTime)
+      )
     } else {
       return expression()
     }
-
-    function log(elapsedTime: number): void {
-      self.options.transport.send({
-        level: Level.Warn
-      , message: getValue(message)
-      , namespace: self.options.namespace
-      , timestamp: createTimestamp()
-      , elapsedTime
-      })
-    }
   }
 
-  fatalTime<T>(message: string | Getter<string>, expression: () => T): T
   fatalTime<T>(message: string | Getter<string>, expression: () => PromiseLike<T>): PromiseLike<T>
+  fatalTime<T>(message: string | Getter<string>, expression: () => T): T
   fatalTime<T>(message: string | Getter<string>, expression: () => T | PromiseLike<T>) {
-    const self = this
     if (this.options.level <= Level.Fatal) {
-      return this.measureElapsedTime(expression, log)
+      return this.measureElapsedTime(
+        expression
+      , elapsedTime => this._fatal(message, elapsedTime))
     } else {
       return expression()
     }
+  }
 
-    function log(elapsedTime: number): void {
-      self.options.transport.send({
-        level: Level.Fatal
-      , message: getValue(message)
-      , namespace: self.options.namespace
-      , timestamp: createTimestamp()
-      , elapsedTime
-      })
+  traceTimeFunction<Result, Args extends any[]>(
+    message: string | Getter<string>
+  , fn: (...args: Args) => PromiseLike<Result>
+  ): (...args: Args) => PromiseLike<Result>
+  traceTimeFunction<Result, Args extends any[]>(
+    message: string | Getter<string>
+  , fn: (...args: Args) => Result
+  ): (...args: Args) => Result
+  traceTimeFunction<Result, Args extends any[]>(
+    message: string | Getter<string>
+  , fn: (...args: Args) => Result
+  ): (...args: Args) => Result {
+    if (this.options.level <= Level.Trace) {
+      return (...args: Args) => {
+        return this.measureElapsedTime(
+          () => fn(...args)
+        , elapsedTime => this._trace(message, elapsedTime))
+      }
+    } else {
+      return fn
     }
   }
 
+  infoTimeFunction<Result, Args extends any[]>(
+    message: string | Getter<string>
+  , fn: (...args: Args) => PromiseLike<Result>
+  ): (...args: Args) => PromiseLike<Result>
+  infoTimeFunction<Result, Args extends any[]>(
+    message: string | Getter<string>
+  , fn: (...args: Args) => Result
+  ): (...args: Args) => Result
+  infoTimeFunction<Result, Args extends any[]>(
+    message: string | Getter<string>
+  , fn: (...args: Args) => Result
+  ): (...args: Args) => Result {
+    if (this.options.level <= Level.Info) {
+      return (...args: Args) => {
+        return this.measureElapsedTime(
+          () => fn(...args)
+        , elapsedTime => this._info(message, elapsedTime))
+      }
+    } else {
+      return fn
+    }
+  }
+
+  debugTimeFunction<Result, Args extends any[]>(
+    message: string | Getter<string>
+  , fn: (...args: Args) => PromiseLike<Result>
+  ): (...args: Args) => PromiseLike<Result>
+  debugTimeFunction<Result, Args extends any[]>(
+    message: string | Getter<string>
+  , fn: (...args: Args) => Result
+  ): (...args: Args) => Result
+  debugTimeFunction<Result, Args extends any[]>(
+    message: string | Getter<string>
+  , fn: (...args: Args) => Result
+  ): (...args: Args) => Result {
+    if (this.options.level <= Level.Debug) {
+      return (...args: Args) => {
+        return this.measureElapsedTime(
+          () => fn(...args)
+        , elapsedTime => this._debug(message, elapsedTime))
+      }
+    } else {
+      return fn
+    }
+  }
+
+  warnTimeFunction<Result, Args extends any[]>(
+    message: string | Getter<string>
+  , fn: (...args: Args) => PromiseLike<Result>
+  ): (...args: Args) => PromiseLike<Result>
+  warnTimeFunction<Result, Args extends any[]>(
+    message: string | Getter<string>
+  , fn: (...args: Args) => Result
+  ): (...args: Args) => Result
+  warnTimeFunction<Result, Args extends any[]>(
+    message: string | Getter<string>
+  , fn: (...args: Args) => Result
+  ): (...args: Args) => Result {
+    if (this.options.level <= Level.Warn) {
+      return (...args: Args) => {
+        return this.measureElapsedTime(
+          () => fn(...args)
+        , elapsedTime => this._warn(message, elapsedTime))
+      }
+    } else {
+      return fn
+    }
+  }
+
+  errorTimeFunction<Result, Args extends any[]>(
+    message: string | Getter<string>
+  , fn: (...args: Args) => PromiseLike<Result>
+  ): (...args: Args) => PromiseLike<Result>
+  errorTimeFunction<Result, Args extends any[]>(
+    message: string | Getter<string>
+  , fn: (...args: Args) => Result
+  ): (...args: Args) => Result
+  errorTimeFunction<Result, Args extends any[]>(
+    message: string | Getter<string>
+  , fn: (...args: Args) => Result
+  ): (...args: Args) => Result {
+    if (this.options.level <= Level.Error) {
+      return (...args: Args) => {
+        return this.measureElapsedTime(
+          () => fn(...args)
+        , elapsedTime => this._error(message, elapsedTime))
+      }
+    } else {
+      return fn
+    }
+  }
+
+  fatalTimeFunction<Result, Args extends any[]>(
+    message: string | Getter<string>
+  , fn: (...args: Args) => PromiseLike<Result>
+  ): (...args: Args) => PromiseLike<Result>
+  fatalTimeFunction<Result, Args extends any[]>(
+    message: string | Getter<string>
+  , fn: (...args: Args) => Result
+  ): (...args: Args) => Result
+  fatalTimeFunction<Result, Args extends any[]>(
+    message: string | Getter<string>
+  , fn: (...args: Args) => Result
+  ): (...args: Args) => Result {
+    if (this.options.level <= Level.Fatal) {
+      return (...args: Args) => {
+        return this.measureElapsedTime(
+          () => fn(...args)
+        , elapsedTime => this._fatal(message, elapsedTime))
+      }
+    } else {
+      return fn
+    }
+  }
+
+  private measureElapsedTime<T>(
+    fn: () => PromiseLike<T>
+  , callback: (elapsedTime: number) => void
+  ): PromiseLike<T>
+  private measureElapsedTime<T>(
+    fn: () => T
+  , callback: (elapsedTime: number) => void
+  ): T
   private measureElapsedTime<T>(
     fn: () => T | PromiseLike<T>
   , callback: (elapsedTime: number) => void
@@ -228,5 +289,65 @@ export class Logger {
       callback(endTime - startTime)
       return result
     }
+  }
+
+  private _trace(message: string | Getter<string>, elapsedTime?: number): void {
+    this.options.transport.send({
+      level: Level.Trace
+    , message: getValue(message)
+    , namespace: this.options.namespace
+    , timestamp: createTimestamp()
+    , elapsedTime
+    })
+  }
+
+  private _info(message: string | Getter<string>, elapsedTime?: number): void {
+    this.options.transport.send({
+      level: Level.Info
+    , message: getValue(message)
+    , namespace: this.options.namespace
+    , timestamp: createTimestamp()
+    , elapsedTime
+    })
+  }
+
+  private _debug(message: string | Getter<string>, elapsedTime?: number): void {
+    this.options.transport.send({
+      level: Level.Debug
+    , message: getValue(message)
+    , namespace: this.options.namespace
+    , timestamp: createTimestamp()
+    , elapsedTime
+    })
+  }
+
+  private _warn(message: string | Getter<string>, elapsedTime?: number): void {
+    this.options.transport.send({
+      level: Level.Warn
+    , message: getValue(message)
+    , namespace: this.options.namespace
+    , timestamp: createTimestamp()
+    , elapsedTime
+    })
+  }
+
+  private _error(message: string | Getter<string>, elapsedTime?: number): void {
+    this.options.transport.send({
+      level: Level.Error
+    , message: getValue(message)
+    , namespace: this.options.namespace
+    , timestamp: createTimestamp()
+    , elapsedTime
+    })
+  }
+
+  private _fatal(message: string | Getter<string>, elapsedTime?: number): void {
+    this.options.transport.send({
+      level: Level.Fatal
+    , message: getValue(message)
+    , namespace: this.options.namespace
+    , timestamp: createTimestamp()
+    , elapsedTime
+    })
   }
 }

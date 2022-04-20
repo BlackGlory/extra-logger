@@ -49,23 +49,77 @@ class Logger {
   error(message: string | Getter<string>, elapsedTime?: number): void
   fatal(message: string | Getter<string>, elapsedTime?: number): void
 
-  traceTime<T>(message: string | Getter<string>, expression: () => T): T
   traceTime<T>(message: string | Getter<string>, expression: () => PromiseLike<T>): PromiseLike<T>
+  traceTime<T>(message: string | Getter<string>, expression: () => T): T
 
-  infoTime<T>(message: string | Getter<string>, expression: () => T): T
   infoTime<T>(message: string | Getter<string>, expression: () => PromiseLike<T>): PromiseLike<T>
+  infoTime<T>(message: string | Getter<string>, expression: () => T): T
 
-  debugTime<T>(message: string | Getter<string>, expression: () => T): T
   debugTime<T>(message: string | Getter<string>, expression: () => PromiseLike<T>): PromiseLike<T>
+  debugTime<T>(message: string | Getter<string>, expression: () => T): T
 
-  warnTime<T>(message: string | Getter<string>, expression: () => T): T
   warnTime<T>(message: string | Getter<string>, expression: () => PromiseLike<T>): PromiseLike<T>
+  warnTime<T>(message: string | Getter<string>, expression: () => T): T
 
-  errorTime<T>(message: string | Getter<string>, expression: () => T): T
   errorTime<T>(message: string | Getter<string>, expression: () => PromiseLike<T>): PromiseLike<T>
+  errorTime<T>(message: string | Getter<string>, expression: () => T): T
 
-  fatalTime<T>(message: string | Getter<string>, expression: () => T): T
   fatalTime<T>(message: string | Getter<string>, expression: () => PromiseLike<T>): PromiseLike<T>
+  fatalTime<T>(message: string | Getter<string>, expression: () => T): T
+
+  traceTimeFunction<Result, Args extends any[]>(
+    message: string | Getter<string>
+  , fn: (...args: Args) => PromiseLike<Result>
+  ): (...args: Args) => PromiseLike<Result>
+  traceTimeFunction<Result, Args extends any[]>(
+    message: string | Getter<string>
+  , fn: (...args: Args) => Result
+  ): (...args: Args) => Result
+
+  infoTimeFunction<Result, Args extends any[]>(
+    message: string | Getter<string>
+  , fn: (...args: Args) => PromiseLike<Result>
+  ): (...args: Args) => PromiseLike<Result>
+  infoTimeFunction<Result, Args extends any[]>(
+    message: string | Getter<string>
+  , fn: (...args: Args) => Result
+  ): (...args: Args) => Result
+
+  debugTimeFunction<Result, Args extends any[]>(
+    message: string | Getter<string>
+  , fn: (...args: Args) => PromiseLike<Result>
+  ): (...args: Args) => PromiseLike<Result>
+  debugTimeFunction<Result, Args extends any[]>(
+    message: string | Getter<string>
+  , fn: (...args: Args) => Result
+  ): (...args: Args) => Result
+
+  warnTimeFunction<Result, Args extends any[]>(
+    message: string | Getter<string>
+  , fn: (...args: Args) => PromiseLike<Result>
+  ): (...args: Args) => PromiseLike<Result>
+  warnTimeFunction<Result, Args extends any[]>(
+    message: string | Getter<string>
+  , fn: (...args: Args) => Result
+  ): (...args: Args) => Result
+
+  errorTimeFunction<Result, Args extends any[]>(
+    message: string | Getter<string>
+  , fn: (...args: Args) => PromiseLike<Result>
+  ): (...args: Args) => PromiseLike<Result>
+  errorTimeFunction<Result, Args extends any[]>(
+    message: string | Getter<string>
+  , fn: (...args: Args) => Result
+  ): (...args: Args) => Result
+
+  fatalTimeFunction<Result, Args extends any[]>(
+    message: string | Getter<string>
+  , fn: (...args: Args) => PromiseLike<Result>
+  ): (...args: Args) => PromiseLike<Result>
+  fatalTimeFunction<Result, Args extends any[]>(
+    message: string | Getter<string>
+  , fn: (...args: Args) => Result
+  ): (...args: Args) => Result
 }
 ```
 
