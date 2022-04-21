@@ -49,7 +49,7 @@ export class Logger {
     }
   }
 
-  traceTime<T>(message: string | Getter<string>, expression: () => PromiseLike<T>): PromiseLike<T>
+  traceTime<T>(message: string | Getter<string>, expression: () => PromiseLike<T>): Promise<T>
   traceTime<T>(message: string | Getter<string>, expression: () => T): T
   traceTime<T>(message: string | Getter<string>, expression: () => T | PromiseLike<T>) {
     if (this.options.level <= Level.Trace) {
@@ -62,7 +62,7 @@ export class Logger {
     }
   }
 
-  infoTime<T>(message: string | Getter<string>, expression: () => PromiseLike<T>): PromiseLike<T>
+  infoTime<T>(message: string | Getter<string>, expression: () => PromiseLike<T>): Promise<T>
   infoTime<T>(message: string | Getter<string>, expression: () => T): T
   infoTime<T>(message: string | Getter<string>, expression: () => T | PromiseLike<T>) {
     if (this.options.level <= Level.Info) {
@@ -75,7 +75,7 @@ export class Logger {
     }
   }
 
-  debugTime<T>(message: string | Getter<string>, expression: () => PromiseLike<T>): PromiseLike<T>
+  debugTime<T>(message: string | Getter<string>, expression: () => PromiseLike<T>): Promise<T>
   debugTime<T>(message: string | Getter<string>, expression: () => T): T
   debugTime<T>(message: string | Getter<string>, expression: () => T | PromiseLike<T>) {
     if (this.options.level <= Level.Debug) {
@@ -88,7 +88,7 @@ export class Logger {
     }
   }
 
-  warnTime<T>(message: string | Getter<string>, expression: () => PromiseLike<T>): PromiseLike<T>
+  warnTime<T>(message: string | Getter<string>, expression: () => PromiseLike<T>): Promise<T>
   warnTime<T>(message: string | Getter<string>, expression: () => T): T
   warnTime<T>(message: string | Getter<string>, expression: () => T | PromiseLike<T>) {
     if (this.options.level <= Level.Warn) {
@@ -101,7 +101,7 @@ export class Logger {
     }
   }
 
-  errorTime<T>(message: string | Getter<string>, expression: () => PromiseLike<T>): PromiseLike<T>
+  errorTime<T>(message: string | Getter<string>, expression: () => PromiseLike<T>): Promise<T>
   errorTime<T>(message: string | Getter<string>, expression: () => T): T
   errorTime<T>(message: string | Getter<string>, expression: () => T | PromiseLike<T>) {
     if (this.options.level <= Level.Error) {
@@ -114,7 +114,7 @@ export class Logger {
     }
   }
 
-  fatalTime<T>(message: string | Getter<string>, expression: () => PromiseLike<T>): PromiseLike<T>
+  fatalTime<T>(message: string | Getter<string>, expression: () => PromiseLike<T>): Promise<T>
   fatalTime<T>(message: string | Getter<string>, expression: () => T): T
   fatalTime<T>(message: string | Getter<string>, expression: () => T | PromiseLike<T>) {
     if (this.options.level <= Level.Fatal) {
@@ -129,7 +129,7 @@ export class Logger {
   traceTimeFunction<Result, Args extends any[]>(
     message: string | Getter<string>
   , fn: (...args: Args) => PromiseLike<Result>
-  ): (...args: Args) => PromiseLike<Result>
+  ): (...args: Args) => Promise<Result>
   traceTimeFunction<Result, Args extends any[]>(
     message: string | Getter<string>
   , fn: (...args: Args) => Result
@@ -152,7 +152,7 @@ export class Logger {
   infoTimeFunction<Result, Args extends any[]>(
     message: string | Getter<string>
   , fn: (...args: Args) => PromiseLike<Result>
-  ): (...args: Args) => PromiseLike<Result>
+  ): (...args: Args) => Promise<Result>
   infoTimeFunction<Result, Args extends any[]>(
     message: string | Getter<string>
   , fn: (...args: Args) => Result
@@ -175,7 +175,7 @@ export class Logger {
   debugTimeFunction<Result, Args extends any[]>(
     message: string | Getter<string>
   , fn: (...args: Args) => PromiseLike<Result>
-  ): (...args: Args) => PromiseLike<Result>
+  ): (...args: Args) => Promise<Result>
   debugTimeFunction<Result, Args extends any[]>(
     message: string | Getter<string>
   , fn: (...args: Args) => Result
@@ -198,7 +198,7 @@ export class Logger {
   warnTimeFunction<Result, Args extends any[]>(
     message: string | Getter<string>
   , fn: (...args: Args) => PromiseLike<Result>
-  ): (...args: Args) => PromiseLike<Result>
+  ): (...args: Args) => Promise<Result>
   warnTimeFunction<Result, Args extends any[]>(
     message: string | Getter<string>
   , fn: (...args: Args) => Result
@@ -221,7 +221,7 @@ export class Logger {
   errorTimeFunction<Result, Args extends any[]>(
     message: string | Getter<string>
   , fn: (...args: Args) => PromiseLike<Result>
-  ): (...args: Args) => PromiseLike<Result>
+  ): (...args: Args) => Promise<Result>
   errorTimeFunction<Result, Args extends any[]>(
     message: string | Getter<string>
   , fn: (...args: Args) => Result
@@ -244,7 +244,7 @@ export class Logger {
   fatalTimeFunction<Result, Args extends any[]>(
     message: string | Getter<string>
   , fn: (...args: Args) => PromiseLike<Result>
-  ): (...args: Args) => PromiseLike<Result>
+  ): (...args: Args) => Promise<Result>
   fatalTimeFunction<Result, Args extends any[]>(
     message: string | Getter<string>
   , fn: (...args: Args) => Result
@@ -267,7 +267,7 @@ export class Logger {
   private measureElapsedTime<T>(
     fn: () => PromiseLike<T>
   , callback: (elapsedTime: number) => void
-  ): PromiseLike<T>
+  ): Promise<T>
   private measureElapsedTime<T>(
     fn: () => T
   , callback: (elapsedTime: number) => void
@@ -279,7 +279,7 @@ export class Logger {
     const startTime = Date.now()
     const result = fn()
     if (isPromiseLike(result)) {
-      return result.then(() => {
+      return Promise.resolve(result).then(() => {
         const endTime = Date.now()
         callback(endTime - startTime)
         return result
