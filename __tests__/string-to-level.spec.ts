@@ -1,5 +1,5 @@
-import { stringToLevel } from '@src/string-to-level'
-import { Level } from '@src/types'
+import { stringToLevel } from '@src/string-to-level.js'
+import { Level } from '@src/types.js'
 
 test('stringToLevel', () => {
   expect(stringToLevel('trace')).toBe(Level.Trace)

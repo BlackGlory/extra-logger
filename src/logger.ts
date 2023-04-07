@@ -1,8 +1,7 @@
-import { isPromiseLike } from '@blackglory/types'
-import { ITransport, Level } from '@src/types'
-import { createTimestamp } from '@utils/create-timestamp'
-import { getValue } from '@utils/get-value'
-import { Getter } from 'justypes'
+import { Getter, isPromiseLike } from '@blackglory/prelude'
+import { ITransport, Level } from '@src/types.js'
+import { createTimestamp } from '@utils/create-timestamp.js'
+import { getValue } from '@utils/get-value.js'
 
 export interface ILoggerOptions {
   level: Level

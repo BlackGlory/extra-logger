@@ -1,5 +1,6 @@
-import { Logger } from '@src/logger'
-import { Level } from '@src/types'
+import { Logger } from '@src/logger.js'
+import { Level } from '@src/types.js'
+import { jest } from '@jest/globals'
 
 describe('Logger', () => {
   describe('trace(message: string): void', () => {

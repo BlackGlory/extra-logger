@@ -1,7 +1,6 @@
-import { Level } from '@src/types'
-import { ITransport, IMessage } from '@src/types'
-import * as chalk from 'chalk'
-import { isUndefined, isntUndefined } from '@blackglory/types'
+import { Level, ITransport, IMessage } from '@src/types.js'
+import chalk from 'chalk'
+import { isUndefined, isntUndefined } from '@blackglory/prelude'
 
 export interface ITerminalTransportOptions {
   /**
