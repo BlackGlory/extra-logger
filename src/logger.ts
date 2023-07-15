@@ -35,12 +35,6 @@ export class Logger {
     this.logByLevel(Level.Fatal, message, elapsedTime)
   }
 
-  private logByLevel(level: Level, message: string | Getter<string>, elapsedTime?: number) {
-    if (this.options.level <= level) {
-      this.sendToTransport(level, message, elapsedTime)
-    }
-  }
-
   traceTime<T>(message: string | Getter<string>, expression: () => PromiseLike<T>): Promise<T>
   traceTime<T>(message: string | Getter<string>, expression: () => T): T
   traceTime<T>(message: string | Getter<string>, expression: () => T | PromiseLike<T>) {
@@ -77,6 +71,106 @@ export class Logger {
     return this.logTimeByLevel(Level.Fatal, message, expression)
   }
 
+  traceTimeFunction<Result, Args extends unknown[]>(
+    message: string | Getter<string>
+  , fn: (...args: Args) => PromiseLike<Result>
+  ): (...args: Args) => Promise<Result>
+  traceTimeFunction<Result, Args extends unknown[]>(
+    message: string | Getter<string>
+  , fn: (...args: Args) => Result
+  ): (...args: Args) => Result
+  traceTimeFunction<Result, Args extends unknown[]>(
+    message: string | Getter<string>
+  , fn: (...args: Args) => Result
+  ) {
+    return this.logTimeFunctionByLevel(Level.Trace, message, fn)
+  }
+
+  infoTimeFunction<Result, Args extends unknown[]>(
+    message: string | Getter<string>
+  , fn: (...args: Args) => PromiseLike<Result>
+  ): (...args: Args) => Promise<Result>
+  infoTimeFunction<Result, Args extends unknown[]>(
+    message: string | Getter<string>
+  , fn: (...args: Args) => Result
+  ): (...args: Args) => Result
+  infoTimeFunction<Result, Args extends unknown[]>(
+    message: string | Getter<string>
+  , fn: (...args: Args) => Result
+  ) {
+    return this.logTimeFunctionByLevel(Level.Info, message, fn)
+  }
+
+  debugTimeFunction<Result, Args extends unknown[]>(
+    message: string | Getter<string>
+  , fn: (...args: Args) => PromiseLike<Result>
+  ): (...args: Args) => Promise<Result>
+  debugTimeFunction<Result, Args extends unknown[]>(
+    message: string | Getter<string>
+  , fn: (...args: Args) => Result
+  ): (...args: Args) => Result
+  debugTimeFunction<Result, Args extends unknown[]>(
+    message: string | Getter<string>
+  , fn: (...args: Args) => Result
+  ) {
+    return this.logTimeFunctionByLevel(Level.Debug, message, fn)
+  }
+
+  warnTimeFunction<Result, Args extends unknown[]>(
+    message: string | Getter<string>
+  , fn: (...args: Args) => PromiseLike<Result>
+  ): (...args: Args) => Promise<Result>
+  warnTimeFunction<Result, Args extends unknown[]>(
+    message: string | Getter<string>
+  , fn: (...args: Args) => Result
+  ): (...args: Args) => Result
+  warnTimeFunction<Result, Args extends unknown[]>(
+    message: string | Getter<string>
+  , fn: (...args: Args) => Result
+  ) {
+    return this.logTimeFunctionByLevel(Level.Warn, message, fn)
+  }
+
+  errorTimeFunction<Result, Args extends unknown[]>(
+    message: string | Getter<string>
+  , fn: (...args: Args) => PromiseLike<Result>
+  ): (...args: Args) => Promise<Result>
+  errorTimeFunction<Result, Args extends unknown[]>(
+    message: string | Getter<string>
+  , fn: (...args: Args) => Result
+  ): (...args: Args) => Result
+  errorTimeFunction<Result, Args extends unknown[]>(
+    message: string | Getter<string>
+  , fn: (...args: Args) => Result
+  ) {
+    return this.logTimeFunctionByLevel(Level.Error, message, fn)
+  }
+
+  fatalTimeFunction<Result, Args extends unknown[]>(
+    message: string | Getter<string>
+  , fn: (...args: Args) => PromiseLike<Result>
+  ): (...args: Args) => Promise<Result>
+  fatalTimeFunction<Result, Args extends unknown[]>(
+    message: string | Getter<string>
+  , fn: (...args: Args) => Result
+  ): (...args: Args) => Result
+  fatalTimeFunction<Result, Args extends unknown[]>(
+    message: string | Getter<string>
+  , fn: (...args: Args) => Result
+  ) {
+    return this.logTimeFunctionByLevel(Level.Fatal, message, fn)
+  }
+
+  private logByLevel(
+    level: Level
+  , message: string | Getter<string>
+  , elapsedTime?: number
+  ) {
+    if (this.options.level <= level) {
+      this.sendToTransport(level, message, elapsedTime)
+    }
+  }
+
   private logTimeByLevel<T>(
     level: Level
   , message: string | Getter<string>
@@ -92,138 +186,16 @@ export class Logger {
     }
   }
 
-  traceTimeFunction<Result, Args extends unknown[]>(
-    message: string | Getter<string>
-  , fn: (...args: Args) => PromiseLike<Result>
-  ): (...args: Args) => Promise<Result>
-  traceTimeFunction<Result, Args extends unknown[]>(
-    message: string | Getter<string>
-  , fn: (...args: Args) => Result
-  ): (...args: Args) => Result
-  traceTimeFunction<Result, Args extends unknown[]>(
-    message: string | Getter<string>
+  private logTimeFunctionByLevel<Result, Args extends unknown[]>(
+    level: Level
+  , message: string | Getter<string>
   , fn: (...args: Args) => Result
   ) {
-    if (this.options.level <= Level.Trace) {
+    if (this.options.level <= level) {
       return (...args: Args) => {
         return this.measureElapsedTime(
           () => fn(...args)
-        , elapsedTime => this.sendToTransport(Level.Trace, message, elapsedTime))
-      }
-    } else {
-      return fn
-    }
-  }
-
-  infoTimeFunction<Result, Args extends unknown[]>(
-    message: string | Getter<string>
-  , fn: (...args: Args) => PromiseLike<Result>
-  ): (...args: Args) => Promise<Result>
-  infoTimeFunction<Result, Args extends unknown[]>(
-    message: string | Getter<string>
-  , fn: (...args: Args) => Result
-  ): (...args: Args) => Result
-  infoTimeFunction<Result, Args extends unknown[]>(
-    message: string | Getter<string>
-  , fn: (...args: Args) => Result
-  ) {
-    if (this.options.level <= Level.Info) {
-      return (...args: Args) => {
-        return this.measureElapsedTime(
-          () => fn(...args)
-        , elapsedTime => this.sendToTransport(Level.Info, message, elapsedTime))
-      }
-    } else {
-      return fn
-    }
-  }
-
-  debugTimeFunction<Result, Args extends unknown[]>(
-    message: string | Getter<string>
-  , fn: (...args: Args) => PromiseLike<Result>
-  ): (...args: Args) => Promise<Result>
-  debugTimeFunction<Result, Args extends unknown[]>(
-    message: string | Getter<string>
-  , fn: (...args: Args) => Result
-  ): (...args: Args) => Result
-  debugTimeFunction<Result, Args extends unknown[]>(
-    message: string | Getter<string>
-  , fn: (...args: Args) => Result
-  ) {
-    if (this.options.level <= Level.Debug) {
-      return (...args: Args) => {
-        return this.measureElapsedTime(
-          () => fn(...args)
-        , elapsedTime => this.sendToTransport(Level.Debug, message, elapsedTime))
-      }
-    } else {
-      return fn
-    }
-  }
-
-  warnTimeFunction<Result, Args extends unknown[]>(
-    message: string | Getter<string>
-  , fn: (...args: Args) => PromiseLike<Result>
-  ): (...args: Args) => Promise<Result>
-  warnTimeFunction<Result, Args extends unknown[]>(
-    message: string | Getter<string>
-  , fn: (...args: Args) => Result
-  ): (...args: Args) => Result
-  warnTimeFunction<Result, Args extends unknown[]>(
-    message: string | Getter<string>
-  , fn: (...args: Args) => Result
-  ) {
-    if (this.options.level <= Level.Warn) {
-      return (...args: Args) => {
-        return this.measureElapsedTime(
-          () => fn(...args)
-        , elapsedTime => this.sendToTransport(Level.Warn, message, elapsedTime))
-      }
-    } else {
-      return fn
-    }
-  }
-
-  errorTimeFunction<Result, Args extends unknown[]>(
-    message: string | Getter<string>
-  , fn: (...args: Args) => PromiseLike<Result>
-  ): (...args: Args) => Promise<Result>
-  errorTimeFunction<Result, Args extends unknown[]>(
-    message: string | Getter<string>
-  , fn: (...args: Args) => Result
-  ): (...args: Args) => Result
-  errorTimeFunction<Result, Args extends unknown[]>(
-    message: string | Getter<string>
-  , fn: (...args: Args) => Result
-  ) {
-    if (this.options.level <= Level.Error) {
-      return (...args: Args) => {
-        return this.measureElapsedTime(
-          () => fn(...args)
-        , elapsedTime => this.sendToTransport(Level.Error, message, elapsedTime))
-      }
-    } else {
-      return fn
-    }
-  }
-
-  fatalTimeFunction<Result, Args extends unknown[]>(
-    message: string | Getter<string>
-  , fn: (...args: Args) => PromiseLike<Result>
-  ): (...args: Args) => Promise<Result>
-  fatalTimeFunction<Result, Args extends unknown[]>(
-    message: string | Getter<string>
-  , fn: (...args: Args) => Result
-  ): (...args: Args) => Result
-  fatalTimeFunction<Result, Args extends unknown[]>(
-    message: string | Getter<string>
-  , fn: (...args: Args) => Result
-  ) {
-    if (this.options.level <= Level.Fatal) {
-      return (...args: Args) => {
-        return this.measureElapsedTime(
-          () => fn(...args)
-        , elapsedTime => this.sendToTransport(Level.Fatal, message, elapsedTime))
+        , elapsedTime => this.sendToTransport(level, message, elapsedTime))
       }
     } else {
       return fn
@@ -250,7 +222,11 @@ export class Logger {
     }
   }
 
-  private sendToTransport(level: Level, message: string | Getter<string>, elapsedTime?: number) {
+  private sendToTransport(
+    level: Level
+  , message: string | Getter<string>
+  , elapsedTime?: number
+  ) {
     this.options.transport.send({
       level
     , message: getValue(message)
