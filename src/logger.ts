@@ -14,37 +14,37 @@ export class Logger {
 
   trace(message: string | Getter<string>, elapsedTime?: number): void {
     if (this.options.level <= Level.Trace) {
-      this._trace(message, elapsedTime)
+      this.sendToTransport(Level.Trace, message, elapsedTime)
     }
   }
 
   info(message: string | Getter<string>, elapsedTime?: number): void {
     if (this.options.level <= Level.Info) {
-      this._info(message, elapsedTime)
+      this.sendToTransport(Level.Info, message, elapsedTime)
     }
   }
 
   debug(message: string | Getter<string>, elapsedTime?: number): void {
     if (this.options.level <= Level.Debug) {
-      this._debug(message, elapsedTime)
+      this.sendToTransport(Level.Debug, message, elapsedTime)
     }
   }
 
   warn(message: string | Getter<string>, elapsedTime?: number): void {
     if (this.options.level <= Level.Warn) {
-      this._warn(message, elapsedTime)
+      this.sendToTransport(Level.Warn, message, elapsedTime)
     }
   }
 
   error(message: string | Getter<string>, elapsedTime?: number): void {
     if (this.options.level <= Level.Error) {
-      this._error(message, elapsedTime)
+      this.sendToTransport(Level.Error, message, elapsedTime)
     }
   }
 
   fatal(message: string | Getter<string>, elapsedTime?: number): void {
     if (this.options.level <= Level.Fatal) {
-      this._fatal(message, elapsedTime)
+      this.sendToTransport(Level.Fatal, message, elapsedTime)
     }
   }
 
@@ -54,7 +54,7 @@ export class Logger {
     if (this.options.level <= Level.Trace) {
       return this.measureElapsedTime(
         expression
-      , elapsedTime => this._trace(message, elapsedTime)
+      , elapsedTime => this.sendToTransport(Level.Trace, message, elapsedTime)
       )
     } else {
       return expression()
@@ -67,7 +67,7 @@ export class Logger {
     if (this.options.level <= Level.Info) {
       return this.measureElapsedTime(
         expression
-      , elapsedTime => this._info(message, elapsedTime)
+      , elapsedTime => this.sendToTransport(Level.Info, message, elapsedTime)
       )
     } else {
       return expression()
@@ -80,7 +80,7 @@ export class Logger {
     if (this.options.level <= Level.Debug) {
       return this.measureElapsedTime(
         expression
-      , elapsedTime => this._debug(message, elapsedTime)
+      , elapsedTime => this.sendToTransport(Level.Debug, message, elapsedTime)
       )
     } else {
       return expression()
@@ -93,7 +93,7 @@ export class Logger {
     if (this.options.level <= Level.Warn) {
       return this.measureElapsedTime(
         expression
-      , elapsedTime => this._warn(message , elapsedTime)
+      , elapsedTime => this.sendToTransport(Level.Warn, message , elapsedTime)
       )
     } else {
       return expression()
@@ -106,7 +106,7 @@ export class Logger {
     if (this.options.level <= Level.Error) {
       return this.measureElapsedTime(
         expression
-      , elapsedTime => this._error(message, elapsedTime)
+      , elapsedTime => this.sendToTransport(Level.Error, message, elapsedTime)
       )
     } else {
       return expression()
@@ -119,7 +119,7 @@ export class Logger {
     if (this.options.level <= Level.Fatal) {
       return this.measureElapsedTime(
         expression
-      , elapsedTime => this._fatal(message, elapsedTime))
+      , elapsedTime => this.sendToTransport(Level.Fatal, message, elapsedTime))
     } else {
       return expression()
     }
@@ -141,7 +141,7 @@ export class Logger {
       return (...args: Args) => {
         return this.measureElapsedTime(
           () => fn(...args)
-        , elapsedTime => this._trace(message, elapsedTime))
+        , elapsedTime => this.sendToTransport(Level.Trace, message, elapsedTime))
       }
     } else {
       return fn
@@ -164,7 +164,7 @@ export class Logger {
       return (...args: Args) => {
         return this.measureElapsedTime(
           () => fn(...args)
-        , elapsedTime => this._info(message, elapsedTime))
+        , elapsedTime => this.sendToTransport(Level.Info, message, elapsedTime))
       }
     } else {
       return fn
@@ -187,7 +187,7 @@ export class Logger {
       return (...args: Args) => {
         return this.measureElapsedTime(
           () => fn(...args)
-        , elapsedTime => this._debug(message, elapsedTime))
+        , elapsedTime => this.sendToTransport(Level.Debug, message, elapsedTime))
       }
     } else {
       return fn
@@ -210,7 +210,7 @@ export class Logger {
       return (...args: Args) => {
         return this.measureElapsedTime(
           () => fn(...args)
-        , elapsedTime => this._warn(message, elapsedTime))
+        , elapsedTime => this.sendToTransport(Level.Warn, message, elapsedTime))
       }
     } else {
       return fn
@@ -233,7 +233,7 @@ export class Logger {
       return (...args: Args) => {
         return this.measureElapsedTime(
           () => fn(...args)
-        , elapsedTime => this._error(message, elapsedTime))
+        , elapsedTime => this.sendToTransport(Level.Error, message, elapsedTime))
       }
     } else {
       return fn
@@ -256,7 +256,7 @@ export class Logger {
       return (...args: Args) => {
         return this.measureElapsedTime(
           () => fn(...args)
-        , elapsedTime => this._fatal(message, elapsedTime))
+        , elapsedTime => this.sendToTransport(Level.Fatal, message, elapsedTime))
       }
     } else {
       return fn
@@ -288,30 +288,6 @@ export class Logger {
       callback(endTime - startTime)
       return result
     }
-  }
-
-  private _trace(message: string | Getter<string>, elapsedTime?: number): void {
-    this.sendToTransport(Level.Trace, message, elapsedTime)
-  }
-
-  private _info(message: string | Getter<string>, elapsedTime?: number): void {
-    this.sendToTransport(Level.Info, message, elapsedTime)
-  }
-
-  private _debug(message: string | Getter<string>, elapsedTime?: number): void {
-    this.sendToTransport(Level.Debug, message, elapsedTime)
-  }
-
-  private _warn(message: string | Getter<string>, elapsedTime?: number): void {
-    this.sendToTransport(Level.Warn, message, elapsedTime)
-  }
-
-  private _error(message: string | Getter<string>, elapsedTime?: number): void {
-    this.sendToTransport(Level.Error, message, elapsedTime)
-  }
-
-  private _fatal(message: string | Getter<string>, elapsedTime?: number): void {
-    this.sendToTransport(Level.Fatal, message, elapsedTime)
   }
 
   private sendToTransport(level: Level, message: string | Getter<string>, elapsedTime?: number) {
