@@ -1,6 +1,5 @@
 import { Getter, isPromiseLike } from '@blackglory/prelude'
 import { ITransport, Level } from '@src/types.js'
-import { createTimestamp } from '@utils/create-timestamp.js'
 import { getValue } from '@utils/get-value.js'
 
 export interface ILoggerOptions {
@@ -295,7 +294,7 @@ export class Logger {
       level
     , message: getValue(message)
     , namespace: this.options.namespace
-    , timestamp: createTimestamp()
+    , timestamp: Date.now()
     , elapsedTime
     })
   }
