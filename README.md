@@ -67,56 +67,56 @@ class Logger {
   fatalTime<T>(message: string | Getter<string>, expression: () => PromiseLike<T>): Promise<T>
   fatalTime<T>(message: string | Getter<string>, expression: () => T): T
 
-  traceTimeFunction<Result, Args extends any[]>(
+  traceTimeFunction<Result, Args extends unknown[]>(
     message: string | Getter<string>
   , fn: (...args: Args) => PromiseLike<Result>
   ): (...args: Args) => Promise<Result>
-  traceTimeFunction<Result, Args extends any[]>(
+  traceTimeFunction<Result, Args extends unknown[]>(
     message: string | Getter<string>
   , fn: (...args: Args) => Result
   ): (...args: Args) => Result
 
-  infoTimeFunction<Result, Args extends any[]>(
+  infoTimeFunction<Result, Args extends unknown[]>(
     message: string | Getter<string>
   , fn: (...args: Args) => PromiseLike<Result>
   ): (...args: Args) => Promise<Result>
-  infoTimeFunction<Result, Args extends any[]>(
+  infoTimeFunction<Result, Args extends unknown[]>(
     message: string | Getter<string>
   , fn: (...args: Args) => Result
   ): (...args: Args) => Result
 
-  debugTimeFunction<Result, Args extends any[]>(
+  debugTimeFunction<Result, Args extends unknown[]>(
     message: string | Getter<string>
   , fn: (...args: Args) => PromiseLike<Result>
   ): (...args: Args) => Promise<Result>
-  debugTimeFunction<Result, Args extends any[]>(
+  debugTimeFunction<Result, Args extends unknown[]>(
     message: string | Getter<string>
   , fn: (...args: Args) => Result
   ): (...args: Args) => Result
 
-  warnTimeFunction<Result, Args extends any[]>(
+  warnTimeFunction<Result, Args extends unknown[]>(
     message: string | Getter<string>
   , fn: (...args: Args) => PromiseLike<Result>
   ): (...args: Args) => Promise<Result>
-  warnTimeFunction<Result, Args extends any[]>(
+  warnTimeFunction<Result, Args extends unknown[]>(
     message: string | Getter<string>
   , fn: (...args: Args) => Result
   ): (...args: Args) => Result
 
-  errorTimeFunction<Result, Args extends any[]>(
+  errorTimeFunction<Result, Args extends unknown[]>(
     message: string | Getter<string>
   , fn: (...args: Args) => PromiseLike<Result>
   ): (...args: Args) => Promise<Result>
-  errorTimeFunction<Result, Args extends any[]>(
+  errorTimeFunction<Result, Args extends unknown[]>(
     message: string | Getter<string>
   , fn: (...args: Args) => Result
   ): (...args: Args) => Result
 
-  fatalTimeFunction<Result, Args extends any[]>(
+  fatalTimeFunction<Result, Args extends unknown[]>(
     message: string | Getter<string>
   , fn: (...args: Args) => PromiseLike<Result>
   ): (...args: Args) => Promise<Result>
-  fatalTimeFunction<Result, Args extends any[]>(
+  fatalTimeFunction<Result, Args extends unknown[]>(
     message: string | Getter<string>
   , fn: (...args: Args) => Result
   ): (...args: Args) => Result
