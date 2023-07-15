@@ -12,38 +12,32 @@ export class Logger {
   constructor(private options: ILoggerOptions) {}
 
   trace(message: string | Getter<string>, elapsedTime?: number): void {
-    if (this.options.level <= Level.Trace) {
-      this.sendToTransport(Level.Trace, message, elapsedTime)
-    }
+    this.logByLevel(Level.Trace, message, elapsedTime)
   }
 
   info(message: string | Getter<string>, elapsedTime?: number): void {
-    if (this.options.level <= Level.Info) {
-      this.sendToTransport(Level.Info, message, elapsedTime)
-    }
+    this.logByLevel(Level.Info, message, elapsedTime)
   }
 
   debug(message: string | Getter<string>, elapsedTime?: number): void {
-    if (this.options.level <= Level.Debug) {
-      this.sendToTransport(Level.Debug, message, elapsedTime)
-    }
+    this.logByLevel(Level.Debug, message, elapsedTime)
   }
 
   warn(message: string | Getter<string>, elapsedTime?: number): void {
-    if (this.options.level <= Level.Warn) {
-      this.sendToTransport(Level.Warn, message, elapsedTime)
-    }
+    this.logByLevel(Level.Warn, message, elapsedTime)
   }
 
   error(message: string | Getter<string>, elapsedTime?: number): void {
-    if (this.options.level <= Level.Error) {
-      this.sendToTransport(Level.Error, message, elapsedTime)
-    }
+    this.logByLevel(Level.Error, message, elapsedTime)
   }
 
   fatal(message: string | Getter<string>, elapsedTime?: number): void {
-    if (this.options.level <= Level.Fatal) {
-      this.sendToTransport(Level.Fatal, message, elapsedTime)
+    this.logByLevel(Level.Fatal, message, elapsedTime)
+  }
+
+  private logByLevel(level: Level, message: string | Getter<string>, elapsedTime?: number) {
+    if (this.options.level <= level) {
+      this.sendToTransport(level, message, elapsedTime)
     }
   }
 
