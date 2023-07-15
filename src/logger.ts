@@ -286,11 +286,13 @@ function measureElapsedTime<T>(
   const startTime = Date.now()
   const result = fn()
   if (isPromiseLike(result)) {
+    const promise = result
+
     return go(async () => {
-      const promiseResult = await result
+      const result = await promise
       const endTime = Date.now()
       callback(endTime - startTime)
-      return promiseResult
+      return result
     })
   } else {
     const endTime = Date.now()
