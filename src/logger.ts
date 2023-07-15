@@ -1,4 +1,4 @@
-import { Getter, isPromiseLike } from '@blackglory/prelude'
+import { Awaitable, Getter, go, isPromiseLike } from '@blackglory/prelude'
 import { ITransport, Level } from '@src/types.js'
 import { getValue } from '@utils/get-value.js'
 
@@ -44,77 +44,51 @@ export class Logger {
   traceTime<T>(message: string | Getter<string>, expression: () => PromiseLike<T>): Promise<T>
   traceTime<T>(message: string | Getter<string>, expression: () => T): T
   traceTime<T>(message: string | Getter<string>, expression: () => T | PromiseLike<T>) {
-    if (this.options.level <= Level.Trace) {
-      return this.measureElapsedTime(
-        expression
-      , elapsedTime => this.sendToTransport(Level.Trace, message, elapsedTime)
-      )
-    } else {
-      return expression()
-    }
+    return this.logTimeByLevel(Level.Trace, message, expression)
   }
 
   infoTime<T>(message: string | Getter<string>, expression: () => PromiseLike<T>): Promise<T>
   infoTime<T>(message: string | Getter<string>, expression: () => T): T
   infoTime<T>(message: string | Getter<string>, expression: () => T | PromiseLike<T>) {
-    if (this.options.level <= Level.Info) {
-      return this.measureElapsedTime(
-        expression
-      , elapsedTime => this.sendToTransport(Level.Info, message, elapsedTime)
-      )
-    } else {
-      return expression()
-    }
+    return this.logTimeByLevel(Level.Info, message, expression)
   }
 
   debugTime<T>(message: string | Getter<string>, expression: () => PromiseLike<T>): Promise<T>
   debugTime<T>(message: string | Getter<string>, expression: () => T): T
   debugTime<T>(message: string | Getter<string>, expression: () => T | PromiseLike<T>) {
-    if (this.options.level <= Level.Debug) {
-      return this.measureElapsedTime(
-        expression
-      , elapsedTime => this.sendToTransport(Level.Debug, message, elapsedTime)
-      )
-    } else {
-      return expression()
-    }
+    return this.logTimeByLevel(Level.Debug, message, expression)
   }
 
   warnTime<T>(message: string | Getter<string>, expression: () => PromiseLike<T>): Promise<T>
   warnTime<T>(message: string | Getter<string>, expression: () => T): T
   warnTime<T>(message: string | Getter<string>, expression: () => T | PromiseLike<T>) {
-    if (this.options.level <= Level.Warn) {
-      return this.measureElapsedTime(
-        expression
-      , elapsedTime => this.sendToTransport(Level.Warn, message , elapsedTime)
-      )
-    } else {
-      return expression()
-    }
+    return this.logTimeByLevel(Level.Warn, message, expression)
   }
 
   errorTime<T>(message: string | Getter<string>, expression: () => PromiseLike<T>): Promise<T>
   errorTime<T>(message: string | Getter<string>, expression: () => T): T
   errorTime<T>(message: string | Getter<string>, expression: () => T | PromiseLike<T>) {
-    if (this.options.level <= Level.Error) {
-      return this.measureElapsedTime(
-        expression
-      , elapsedTime => this.sendToTransport(Level.Error, message, elapsedTime)
-      )
-    } else {
-      return expression()
-    }
+    return this.logTimeByLevel(Level.Error, message, expression)
   }
 
   fatalTime<T>(message: string | Getter<string>, expression: () => PromiseLike<T>): Promise<T>
   fatalTime<T>(message: string | Getter<string>, expression: () => T): T
   fatalTime<T>(message: string | Getter<string>, expression: () => T | PromiseLike<T>) {
-    if (this.options.level <= Level.Fatal) {
-      return this.measureElapsedTime(
+    return this.logTimeByLevel(Level.Fatal, message, expression)
+  }
+
+  private logTimeByLevel<T>(
+    level: Level
+  , message: string | Getter<string>
+  , expression: () => T | PromiseLike<T>
+  ): T | Promise<T> {
+    if (this.options.level <= level) {
+      return this.measureElapsedTime<T>(
         expression
-      , elapsedTime => this.sendToTransport(Level.Fatal, message, elapsedTime))
+      , elapsedTime => this.sendToTransport(level, message, elapsedTime)
+      )
     } else {
-      return expression()
+      return Promise.resolve(expression())
     }
   }
 
@@ -129,7 +103,7 @@ export class Logger {
   traceTimeFunction<Result, Args extends unknown[]>(
     message: string | Getter<string>
   , fn: (...args: Args) => Result
-  ): (...args: Args) => Result {
+  ) {
     if (this.options.level <= Level.Trace) {
       return (...args: Args) => {
         return this.measureElapsedTime(
@@ -152,7 +126,7 @@ export class Logger {
   infoTimeFunction<Result, Args extends unknown[]>(
     message: string | Getter<string>
   , fn: (...args: Args) => Result
-  ): (...args: Args) => Result {
+  ) {
     if (this.options.level <= Level.Info) {
       return (...args: Args) => {
         return this.measureElapsedTime(
@@ -175,7 +149,7 @@ export class Logger {
   debugTimeFunction<Result, Args extends unknown[]>(
     message: string | Getter<string>
   , fn: (...args: Args) => Result
-  ): (...args: Args) => Result {
+  ) {
     if (this.options.level <= Level.Debug) {
       return (...args: Args) => {
         return this.measureElapsedTime(
@@ -198,7 +172,7 @@ export class Logger {
   warnTimeFunction<Result, Args extends unknown[]>(
     message: string | Getter<string>
   , fn: (...args: Args) => Result
-  ): (...args: Args) => Result {
+  ) {
     if (this.options.level <= Level.Warn) {
       return (...args: Args) => {
         return this.measureElapsedTime(
@@ -221,7 +195,7 @@ export class Logger {
   errorTimeFunction<Result, Args extends unknown[]>(
     message: string | Getter<string>
   , fn: (...args: Args) => Result
-  ): (...args: Args) => Result {
+  ) {
     if (this.options.level <= Level.Error) {
       return (...args: Args) => {
         return this.measureElapsedTime(
@@ -244,7 +218,7 @@ export class Logger {
   fatalTimeFunction<Result, Args extends unknown[]>(
     message: string | Getter<string>
   , fn: (...args: Args) => Result
-  ): (...args: Args) => Result {
+  ) {
     if (this.options.level <= Level.Fatal) {
       return (...args: Args) => {
         return this.measureElapsedTime(
@@ -257,24 +231,17 @@ export class Logger {
   }
 
   private measureElapsedTime<T>(
-    fn: () => PromiseLike<T>
+    fn: () => Awaitable<T>
   , callback: (elapsedTime: number) => void
-  ): Promise<T>
-  private measureElapsedTime<T>(
-    fn: () => T
-  , callback: (elapsedTime: number) => void
-  ): T
-  private measureElapsedTime<T>(
-    fn: () => T | PromiseLike<T>
-  , callback: (elapsedTime: number) => void
-  ) {
+  ): T | Promise<T> {
     const startTime = Date.now()
     const result = fn()
     if (isPromiseLike(result)) {
-      return Promise.resolve(result).then(() => {
+      return go(async () => {
+        const promiseResult = await result
         const endTime = Date.now()
         callback(endTime - startTime)
-        return result
+        return promiseResult
       })
     } else {
       const endTime = Date.now()
