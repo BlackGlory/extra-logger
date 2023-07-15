@@ -291,58 +291,32 @@ export class Logger {
   }
 
   private _trace(message: string | Getter<string>, elapsedTime?: number): void {
-    this.options.transport.send({
-      level: Level.Trace
-    , message: getValue(message)
-    , namespace: this.options.namespace
-    , timestamp: createTimestamp()
-    , elapsedTime
-    })
+    this.sendToTransport(Level.Trace, message, elapsedTime)
   }
 
   private _info(message: string | Getter<string>, elapsedTime?: number): void {
-    this.options.transport.send({
-      level: Level.Info
-    , message: getValue(message)
-    , namespace: this.options.namespace
-    , timestamp: createTimestamp()
-    , elapsedTime
-    })
+    this.sendToTransport(Level.Info, message, elapsedTime)
   }
 
   private _debug(message: string | Getter<string>, elapsedTime?: number): void {
-    this.options.transport.send({
-      level: Level.Debug
-    , message: getValue(message)
-    , namespace: this.options.namespace
-    , timestamp: createTimestamp()
-    , elapsedTime
-    })
+    this.sendToTransport(Level.Debug, message, elapsedTime)
   }
 
   private _warn(message: string | Getter<string>, elapsedTime?: number): void {
-    this.options.transport.send({
-      level: Level.Warn
-    , message: getValue(message)
-    , namespace: this.options.namespace
-    , timestamp: createTimestamp()
-    , elapsedTime
-    })
+    this.sendToTransport(Level.Warn, message, elapsedTime)
   }
 
   private _error(message: string | Getter<string>, elapsedTime?: number): void {
-    this.options.transport.send({
-      level: Level.Error
-    , message: getValue(message)
-    , namespace: this.options.namespace
-    , timestamp: createTimestamp()
-    , elapsedTime
-    })
+    this.sendToTransport(Level.Error, message, elapsedTime)
   }
 
   private _fatal(message: string | Getter<string>, elapsedTime?: number): void {
+    this.sendToTransport(Level.Fatal, message, elapsedTime)
+  }
+
+  private sendToTransport(level: Level, message: string | Getter<string>, elapsedTime?: number) {
     this.options.transport.send({
-      level: Level.Fatal
+      level
     , message: getValue(message)
     , namespace: this.options.namespace
     , timestamp: createTimestamp()
