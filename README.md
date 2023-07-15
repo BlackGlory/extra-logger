@@ -49,23 +49,59 @@ class Logger {
   error(message: string | Getter<string>, elapsedTime?: number): void
   fatal(message: string | Getter<string>, elapsedTime?: number): void
 
-  traceTime<T>(message: string | Getter<string>, expression: () => PromiseLike<T>): Promise<T>
-  traceTime<T>(message: string | Getter<string>, expression: () => T): T
+  traceTime<T>(
+    message: string | Getter<string>
+  , expression: () => PromiseLike<T>
+  ): Promise<T>
+  traceTime<T>(
+    message: string | Getter<string>
+  , expression: () => T
+  ): T
 
-  infoTime<T>(message: string | Getter<string>, expression: () => PromiseLike<T>): Promise<T>
-  infoTime<T>(message: string | Getter<string>, expression: () => T): T
+  infoTime<T>(
+    message: string | Getter<string>
+  , expression: () => PromiseLike<T>
+  ): Promise<T>
+  infoTime<T>(
+    message: string | Getter<string>
+  , expression: () => T
+  ): T
 
-  debugTime<T>(message: string | Getter<string>, expression: () => PromiseLike<T>): Promise<T>
-  debugTime<T>(message: string | Getter<string>, expression: () => T): T
+  debugTime<T>(
+    message: string | Getter<string>
+  , expression: () => PromiseLike<T>
+  ): Promise<T>
+  debugTime<T>(
+    message: string | Getter<string>
+  , expression: () => T
+  ): T
 
-  warnTime<T>(message: string | Getter<string>, expression: () => PromiseLike<T>): Promise<T>
-  warnTime<T>(message: string | Getter<string>, expression: () => T): T
+  warnTime<T>(
+    message: string | Getter<string>
+  , expression: () => PromiseLike<T>
+  ): Promise<T>
+  warnTime<T>(
+    message: string | Getter<string>
+  , expression: () => T
+  ): T
 
-  errorTime<T>(message: string | Getter<string>, expression: () => PromiseLike<T>): Promise<T>
-  errorTime<T>(message: string | Getter<string>, expression: () => T): T
+  errorTime<T>(
+    message: string | Getter<string>
+  , expression: () => PromiseLike<T>
+  ): Promise<T>
+  errorTime<T>(
+    message: string | Getter<string>
+  , expression: () => T
+  ): T
 
-  fatalTime<T>(message: string | Getter<string>, expression: () => PromiseLike<T>): Promise<T>
-  fatalTime<T>(message: string | Getter<string>, expression: () => T): T
+  fatalTime<T>(
+    message: string | Getter<string>
+  , expression: () => PromiseLike<T>
+  ): Promise<T>
+  fatalTime<T>(
+    message: string | Getter<string>
+  , expression: () => T
+  ): T
 
   traceTimeFunction<Result, Args extends unknown[]>(
     message: string | Getter<string>
@@ -125,7 +161,7 @@ class Logger {
 
 ### TerminalTransport
 ```ts
-export interface ITerminalTransportOptions {
+interface ITerminalTransportOptions {
   logMinimumDuration?: number
 }
 
