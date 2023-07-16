@@ -70,7 +70,7 @@ function formatNamespace(namespace: string): string {
 }
 
 function formatDate(timestamp: number): string {
-  return new Date(timestamp).toLocaleString()
+  return new Date(timestamp).toISOString()
 }
 
 function formatElapsedTime(elapsed: number): string {
