@@ -237,7 +237,12 @@ export class Logger {
       , elapsedTime => this.send(level, message, elapsedTime)
       )
     } else {
-      return Promise.resolve(expression())
+      const result = expression()
+      if (isPromiseLike(result)) {
+        return Promise.resolve(result)
+      } else {
+        return result
+      }
     }
   }
 
