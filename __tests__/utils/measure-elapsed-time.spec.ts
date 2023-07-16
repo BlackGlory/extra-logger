@@ -26,7 +26,7 @@ describe('measureElapsedTime', () => {
     const fn = jest.fn(() => {
       jest.advanceTimersByTime(100)
 
-      return new Promise<{}>(resolve => {
+      return new Promise<typeof obj>(resolve => {
         jest.advanceTimersByTime(200)
         resolve(obj)
       })
