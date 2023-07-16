@@ -4,7 +4,7 @@ import { isUndefined, isntUndefined } from '@blackglory/prelude'
 
 export interface ITerminalTransportOptions {
   /**
-   * 对于记录执行耗时的日志, 仅打印高于此值的日志
+   * 对于记录执行耗时的日志, 仅打印高于或等于此值的日志
    */
   logMinimumDuration?: number
 }
@@ -14,33 +14,38 @@ export class TerminalTransport implements ITransport {
 
   constructor(private options: ITerminalTransportOptions = {}) {}
 
-  send(message: IMessage) {
-    if (isUndefined(message.elapsedTime) || isUndefined(this.options.logMinimumDuration)) {
-      console.log(this.messageToString(message))
+  send(message: IMessage): void {
+    if (isUndefined(message.elapsedTime)) {
+      console.log(this.stringifyMessage(message))
     } else {
-      if (message.elapsedTime >= this.options.logMinimumDuration) {
-        console.log(this.messageToString(message))
+      if (isUndefined(this.options.logMinimumDuration)) {
+        console.log(this.stringifyMessage(message))
+      } else {
+        if (message.elapsedTime >= this.options.logMinimumDuration) {
+          console.log(this.stringifyMessage(message))
+        }
       }
     }
   }
 
-  private messageToString(message: IMessage) {
-    let result: string =
+  private stringifyMessage(message: IMessage): string {
+    const str: string[] = [
       `[${levelToString(message.level)}]`
     + `[${formatDate(message.timestamp)}]`
-    + ` #${this.createId()}`
+    , `#${this.createId()}`
+    ]
 
     if (isntUndefined(message.namespace)) {
-      result += ` ${formatNamespace(message.namespace)}`
+      str.push(`${formatNamespace(message.namespace)}`)
     }
 
-    result += ` ${message.message}`
+    str.push(`${message.message}`)
 
     if (isntUndefined(message.elapsedTime)) {
-      result += ` ${formatElapsedTime(message.elapsedTime)}`
+      str.push(`${formatElapsedTime(message.elapsedTime)}`)
     }
     
-    return result
+    return str.join(' ')
   }
 
   private createId(): number {
@@ -69,7 +74,7 @@ function formatDate(timestamp: number): string {
 }
 
 function formatElapsedTime(elapsed: number): string {
-  if (elapsed <= 100) return chalk.green`${elapsed}ms`
-  if (elapsed <= 300) return chalk.yellow`${elapsed}ms`
-  return chalk.red`${elapsed}ms`
+  if (elapsed <= 100) return chalk.green(`${elapsed}ms`)
+  if (elapsed <= 300) return chalk.yellow(`${elapsed}ms`)
+  return chalk.red(`${elapsed}ms`)
 }

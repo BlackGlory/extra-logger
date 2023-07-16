@@ -10,6 +10,7 @@
   , "baseUrl": "."
   , "paths": {
       "@src/*": ["src/*"]
+    , "@transports/*": ["src/transports/*"]
     , "@utils/*": ["src/utils/*"]
     , "@test/*": ["__tests__/*"]
     }
