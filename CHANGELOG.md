@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.7.2](https://github.com/BlackGlory/extra-logger/compare/v0.7.1...v0.7.2) (2023-07-16)
+
+
+### Features
+
+* **TerminalTransport:** locale date => ISO date ([74ebe3c](https://github.com/BlackGlory/extra-logger/commit/74ebe3ca2c93205c36996e166613a189c4ae5ef0))
+
+
+### Bug Fixes
+
+* formatElapsedTime ([43c3563](https://github.com/BlackGlory/extra-logger/commit/43c3563284d37358eefb2ab8ad33be5fa973e499))
+* return values of Logger#*Time ([da41823](https://github.com/BlackGlory/extra-logger/commit/da418237e5d957be8aa835f4fa2a96fd32ea8d24))
+* return values of Logger#*TimeFunction ([6ff4201](https://github.com/BlackGlory/extra-logger/commit/6ff4201b6d6dfc51b7bfefdbd1764412d82eade5))
+
 ### [0.7.1](https://github.com/BlackGlory/extra-logger/compare/v0.7.0...v0.7.1) (2023-06-10)
 
 
