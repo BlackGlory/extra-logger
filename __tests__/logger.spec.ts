@@ -74,22 +74,22 @@ describe('Logger', () => {
     beforeAll(() => jest.useFakeTimers())
     afterAll(() => jest.useRealTimers())
 
-    const obj = {}
     describe.each([
       [
         'sync'
-      , () => jest.fn(() => {
+      , (value: unknown) => jest.fn(() => {
           jest.advanceTimersByTime(100)
-          return obj
+          return value
         })
       ]
     , [
         'async'
-      , () => jest.fn(() => {
+      , (value: unknown) => jest.fn(() => {
           jest.advanceTimersByTime(20)
-          return new Promise<typeof obj>(resolve => {
+
+          return new Promise<unknown>(resolve => {
             jest.advanceTimersByTime(80)
-            resolve(obj)
+            resolve(value)
           })
         })
       ]
@@ -101,24 +101,25 @@ describe('Logger', () => {
         test(`level < ${Level[methodLevel]}`, async () => {
           const transport = { send: jest.fn() }
           const logger = new Logger({ level: loggerLevel - 1, transport })
-          const expression = createExpression()
+          const value = {}
+          const expression = createExpression(value)
 
           // @ts-ignore
           const result = logger[method](message, expression)
 
+          expect(expression).toBeCalledTimes(1)
           switch (expressionType) {
             case 'sync': {
-              expect(result).toBe(obj)
+              expect(result).toBe(value)
               break
             }
             case 'async': {
               expect(isPromise(result)).toBe(true)
-              expect(await result).toBe(obj)
+              expect(await result).toBe(value)
               break
             }
             default: throw new Error('Unknown expression type')
           }
-          expect(expression).toBeCalledTimes(1)
           expect(transport.send).toBeCalledWith({
             level: methodLevel
           , message: 'message'
@@ -131,24 +132,25 @@ describe('Logger', () => {
         test(`level = ${Level[methodLevel]}`, async () => {
           const transport = { send: jest.fn() }
           const logger = new Logger({ level: loggerLevel, transport })
-          const expression = createExpression()
+          const value = {}
+          const expression = createExpression(value)
 
           // @ts-ignore
           const result = logger[method](message, expression)
 
+          expect(expression).toBeCalledTimes(1)
           switch (expressionType) {
             case 'sync': {
-              expect(result).toBe(obj)
+              expect(result).toBe(value)
               break
             }
             case 'async': {
               expect(isPromise(result)).toBe(true)
-              expect(await result).toBe(obj)
+              expect(await result).toBe(value)
               break
             }
             default: throw new Error('Unknown expression type')
           }
-          expect(expression).toBeCalledTimes(1)
           expect(transport.send).toBeCalledWith({
             level: methodLevel
           , message: 'message'
@@ -161,24 +163,153 @@ describe('Logger', () => {
         test(`level > ${Level[methodLevel]}`, async () => {
           const transport = { send: jest.fn() }
           const logger = new Logger({ level: loggerLevel + 1, transport })
-          const expression = createExpression()
+          const value = {}
+          const expression = createExpression(value)
 
           // @ts-ignore
           const result = logger[method](message, expression)
 
+          expect(expression).toBeCalledTimes(1)
           switch (expressionType) {
             case 'sync': {
-              expect(result).toBe(obj)
+              expect(result).toBe(value)
               break
             }
             case 'async': {
               expect(isPromise(result)).toBe(true)
-              expect(await result).toBe(obj)
+              expect(await result).toBe(value)
               break
             }
             default: throw new Error('Unknown expression type')
           }
-          expect(expression).toBeCalledTimes(1)
+          expect(transport.send).not.toBeCalled()
+        })
+      })
+    })
+  })
+
+  describe.each([
+    ['traceTimeFunction', Level.Trace, Level.Trace]
+  , ['debugTimeFunction', Level.Debug, Level.Debug]
+  , ['infoTimeFunction', Level.Info, Level.Info]
+  , ['warnTimeFunction', Level.Warn, Level.Warn]
+  , ['errorTimeFunction', Level.Error, Level.Error]
+  , ['fatalTimeFunction', Level.Fatal, Level.Fatal]
+  ])('%s', (method: string, methodLevel: Level, loggerLevel: Level) => {
+    beforeAll(() => jest.useFakeTimers())
+    afterAll(() => jest.useRealTimers())
+
+    describe.each([
+      [
+        'sync'
+      , () => jest.fn((value: unknown) => {
+          jest.advanceTimersByTime(100)
+          return value
+        })
+      ]
+    , [
+        'async'
+      , () => jest.fn((value: unknown) => {
+          jest.advanceTimersByTime(20)
+
+          return new Promise<unknown>(resolve => {
+            jest.advanceTimersByTime(80)
+            resolve(value)
+          })
+        })
+      ]
+    ])('fn: %s', (fnType, createFn) => {
+      describe.each([
+        ['getter', 'message']
+      , ['value', () => 'message']
+      ])(`message: %s`, (_, message) => {
+        test(`level < ${Level[methodLevel]}`, async () => {
+          const transport = { send: jest.fn() }
+          const logger = new Logger({ level: loggerLevel - 1, transport })
+          const fn = createFn()
+          const value = {}
+
+          // @ts-ignore
+          const newFn = logger[method](message, fn)
+          const result = newFn(value)
+
+          expect(fn).toBeCalledTimes(1)
+          switch (fnType) {
+            case 'sync': {
+              expect(result).toBe(value)
+              break
+            }
+            case 'async': {
+              expect(isPromise(result)).toBe(true)
+              expect(await result).toBe(value)
+              break
+            }
+            default: throw new Error('Unknown expression type')
+          }
+          expect(transport.send).toBeCalledWith({
+            level: methodLevel
+          , message: 'message'
+          , namespace: undefined
+          , timestamp: expect.any(Number)
+          , elapsedTime: 100
+          })
+        })
+
+        test(`level = ${Level[methodLevel]}`, async () => {
+          const transport = { send: jest.fn() }
+          const logger = new Logger({ level: loggerLevel, transport })
+          const fn = createFn()
+          const value = {}
+
+          // @ts-ignore
+          const newFn = logger[method](message, fn)
+          const result = newFn(value)
+
+          expect(fn).toBeCalledTimes(1)
+          switch (fnType) {
+            case 'sync': {
+              expect(result).toBe(value)
+              break
+            }
+            case 'async': {
+              expect(isPromise(result)).toBe(true)
+              expect(await result).toBe(value)
+              break
+            }
+            default: throw new Error('Unknown expression type')
+          }
+          expect(transport.send).toBeCalledWith({
+            level: methodLevel
+          , message: 'message'
+          , namespace: undefined
+          , timestamp: expect.any(Number)
+          , elapsedTime: 100
+          })
+        })
+
+        test(`level > ${Level[methodLevel]}`, async () => {
+          const transport = { send: jest.fn() }
+          const logger = new Logger({ level: loggerLevel + 1, transport })
+          const fn = createFn()
+          const value = {}
+
+          // @ts-ignore
+          const newFn = logger[method](message, fn)
+          const result = newFn(value)
+
+          expect(fn).toBeCalledTimes(1)
+          switch (fnType) {
+            case 'sync': {
+              expect(result).toBe(value)
+              break
+            }
+            case 'async': {
+              expect(isPromise(result)).toBe(true)
+              expect(await result).toBe(value)
+              break
+            }
+            default: throw new Error('Unknown expression type')
+          }
           expect(transport.send).not.toBeCalled()
         })
       })

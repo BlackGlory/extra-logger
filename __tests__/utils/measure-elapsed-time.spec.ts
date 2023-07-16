@@ -6,10 +6,10 @@ jest.useFakeTimers()
 
 describe('measureElapsedTime', () => {
   test('sync', () => {
-    const obj = {}
+    const value = {}
     const fn = jest.fn(() => {
       jest.advanceTimersByTime(100)
-      return obj
+      return value
     })
     const callback = jest.fn()
 
@@ -18,17 +18,17 @@ describe('measureElapsedTime', () => {
     expect(fn).toBeCalledTimes(1)
     expect(callback).toBeCalledTimes(1)
     expect(callback).toBeCalledWith(100)
-    expect(result).toBe(obj)
+    expect(result).toBe(value)
   })
 
   test('async', async () => {
-    const obj = {}
+    const value = {}
     const fn = jest.fn(() => {
       jest.advanceTimersByTime(100)
 
-      return new Promise<typeof obj>(resolve => {
+      return new Promise<typeof value>(resolve => {
         jest.advanceTimersByTime(200)
-        resolve(obj)
+        resolve(value)
       })
     })
     const callback = jest.fn()
@@ -40,6 +40,6 @@ describe('measureElapsedTime', () => {
     expect(callback).toBeCalledTimes(1)
     expect(callback).toBeCalledWith(300)
     expect(isPromise(promise)).toBe(true)
-    expect(result).toBe(obj)
+    expect(result).toBe(value)
   })
 })
