@@ -40,7 +40,7 @@ interface ILoggerOptions {
 }
 
 class Logger {
-  constructor(private options: ILoggerOptions)
+  constructor(options: ILoggerOptions)
 
   trace(message: string | Getter<string>, elapsedTime?: number): void
   traceAsync(
