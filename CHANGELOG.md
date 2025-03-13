@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.8.0](https://github.com/BlackGlory/extra-logger/compare/v0.7.2...v0.8.0) (2025-03-13)
+
+
+### ⚠ BREAKING CHANGES
+
+* Removed all overloads in `Logger`.
+
+### Features
+
+* add async methods ([dca3bcb](https://github.com/BlackGlory/extra-logger/commit/dca3bcb0e567e751b042bd1b95cb7e1723e7ce61))
+
 ### [0.7.2](https://github.com/BlackGlory/extra-logger/compare/v0.7.1...v0.7.2) (2023-07-16)
 
 
