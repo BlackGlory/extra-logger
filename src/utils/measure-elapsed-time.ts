@@ -1,23 +1,27 @@
-import { Awaitable, go, isPromiseLike } from '@blackglory/prelude'
+import { Awaitable } from '@blackglory/prelude'
 
 export function measureElapsedTime<T>(
-  fn: () => Awaitable<T>
+  fn: () => T
 , callback: (elapsedTime: number) => void
-): T | Promise<T> {
+): T {
   const startTime = Date.now()
   const result = fn()
-  if (isPromiseLike(result)) {
-    const promise = result
+  const endTime = Date.now()
 
-    return go(async () => {
-      const result = await promise
-      const endTime = Date.now()
-      callback(endTime - startTime)
-      return result
-    })
-  } else {
-    const endTime = Date.now()
-    callback(endTime - startTime)
-    return result
-  }
+  callback(endTime - startTime)
+
+  return result
+}
+
+export async function measureElapsedTimeAsync<T>(
+  fn: () => Awaitable<T>
+, callback: (elapsedTime: number) => Awaitable<void>
+): Promise<T> {
+  const startTime = Date.now()
+  const result = await fn()
+  const endTime = Date.now()
+
+  await callback(endTime - startTime)
+
+  return result
 }

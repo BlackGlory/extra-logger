@@ -43,119 +43,148 @@ class Logger {
   constructor(private options: ILoggerOptions)
 
   trace(message: string | Getter<string>, elapsedTime?: number): void
+  traceAsync(
+    message: Awaitable<string> | Getter<Awaitable<string>>
+  , elapsedTime?: number
+  ): Promise<void>
+
   info(message: string | Getter<string>, elapsedTime?: number): void
+  infoAsync(
+    message: Awaitable<string> | Getter<Awaitable<string>>
+  , elapsedTime?: number
+  ): Promise<void>
+
   debug(message: string | Getter<string>, elapsedTime?: number): void
+  debugAsync(
+    message: Awaitable<string> | Getter<Awaitable<string>>
+  , elapsedTime?: number
+  ): Promise<void>
+
   warn(message: string | Getter<string>, elapsedTime?: number): void
+  warnAsync(
+    message: Awaitable<string> | Getter<Awaitable<string>>
+  , elapsedTime?: number
+  ): Promise<void>
+
   error(message: string | Getter<string>, elapsedTime?: number): void
+  errorAsync(
+    message: Awaitable<string> | Getter<Awaitable<string>>
+  , elapsedTime?: number
+  ): Promise<void>
+
   fatal(message: string | Getter<string>, elapsedTime?: number): void
+  fatalAsync(
+    message: Awaitable<string> | Getter<Awaitable<string>>
+  , elapsedTime?: number
+  ): Promise<void>
 
   traceTime<T>(
     message: string | Getter<string>
-  , expression: () => PromiseLike<T>
-  ): Promise<T>
-  traceTime<T>(
-    message: string | Getter<string>
   , expression: () => T
   ): T
-
-  infoTime<T>(
-    message: string | Getter<string>
-  , expression: () => PromiseLike<T>
+  traceTimeAsync<T>(
+    message: Awaitable<string> | Getter<Awaitable<string>>
+  , expression: () => Awaitable<T>
   ): Promise<T>
+
   infoTime<T>(
     message: string | Getter<string>
   , expression: () => T
   ): T
+  infoTimeAsync<T>(
+    message: Awaitable<string> | Getter<Awaitable<string>>
+  , expression: () => Awaitable<T>
+  ): Promise<T>
 
   debugTime<T>(
     message: string | Getter<string>
-  , expression: () => PromiseLike<T>
-  ): Promise<T>
-  debugTime<T>(
-    message: string | Getter<string>
   , expression: () => T
   ): T
-
-  warnTime<T>(
-    message: string | Getter<string>
-  , expression: () => PromiseLike<T>
+  debugTimeAsync<T>(
+    message: Awaitable<string> | Getter<Awaitable<string>>
+  , expression: () => Awaitable<T>
   ): Promise<T>
+
   warnTime<T>(
     message: string | Getter<string>
   , expression: () => T
   ): T
-
-  errorTime<T>(
-    message: string | Getter<string>
-  , expression: () => PromiseLike<T>
+  warnTimeAsync<T>(
+    message: Awaitable<string> | Getter<Awaitable<string>>
+  , expression: () => Awaitable<T>
   ): Promise<T>
+
   errorTime<T>(
     message: string | Getter<string>
   , expression: () => T
   ): T
-
-  fatalTime<T>(
-    message: string | Getter<string>
-  , expression: () => PromiseLike<T>
+  errorTimeAsync<T>(
+    message: Awaitable<string> | Getter<Awaitable<string>>
+  , expression: () => Awaitable<T>
   ): Promise<T>
+
   fatalTime<T>(
     message: string | Getter<string>
   , expression: () => T
   ): T
+  fatalTimeAsync<T>(
+    message: Awaitable<string> | Getter<Awaitable<string>>
+  , expression: () => Awaitable<T>
+  ): Promise<T>
 
   traceTimeFunction<Result, Args extends unknown[]>(
     message: string | Getter<string>
-  , fn: (...args: Args) => PromiseLike<Result>
-  ): (...args: Args) => Promise<Result>
-  traceTimeFunction<Result, Args extends unknown[]>(
-    message: string | Getter<string>
   , fn: (...args: Args) => Result
   ): (...args: Args) => Result
-
-  infoTimeFunction<Result, Args extends unknown[]>(
-    message: string | Getter<string>
-  , fn: (...args: Args) => PromiseLike<Result>
+  traceTimeAsyncFunction<Result, Args extends unknown[]>(
+    message: Awaitable<string> | Getter<Awaitable<string>>
+  , fn: (...args: Args) => Awaitable<Result>
   ): (...args: Args) => Promise<Result>
+
   infoTimeFunction<Result, Args extends unknown[]>(
     message: string | Getter<string>
   , fn: (...args: Args) => Result
   ): (...args: Args) => Result
-
-  debugTimeFunction<Result, Args extends unknown[]>(
-    message: string | Getter<string>
-  , fn: (...args: Args) => PromiseLike<Result>
+  infoTimeAsyncFunction<Result, Args extends unknown[]>(
+    message: Awaitable<string> | Getter<Awaitable<string>>
+  , fn: (...args: Args) => Awaitable<Result>
   ): (...args: Args) => Promise<Result>
+
   debugTimeFunction<Result, Args extends unknown[]>(
     message: string | Getter<string>
   , fn: (...args: Args) => Result
   ): (...args: Args) => Result
+  debugTimeAsyncFunction<Result, Args extends unknown[]>(
+    message: Awaitable<string> | Getter<Awaitable<string>>
+  , fn: (...args: Args) => Awaitable<Result>
+  ): (...args: Args) => Promise<Result>
 
   warnTimeFunction<Result, Args extends unknown[]>(
     message: string | Getter<string>
-  , fn: (...args: Args) => PromiseLike<Result>
-  ): (...args: Args) => Promise<Result>
-  warnTimeFunction<Result, Args extends unknown[]>(
-    message: string | Getter<string>
   , fn: (...args: Args) => Result
   ): (...args: Args) => Result
-
-  errorTimeFunction<Result, Args extends unknown[]>(
-    message: string | Getter<string>
-  , fn: (...args: Args) => PromiseLike<Result>
+  warnTimeAsyncFunction<Result, Args extends unknown[]>(
+    message: Awaitable<string> | Getter<Awaitable<string>>
+  , fn: (...args: Args) => Awaitable<Result>
   ): (...args: Args) => Promise<Result>
+
   errorTimeFunction<Result, Args extends unknown[]>(
     message: string | Getter<string>
   , fn: (...args: Args) => Result
   ): (...args: Args) => Result
-
-  fatalTimeFunction<Result, Args extends unknown[]>(
-    message: string | Getter<string>
-  , fn: (...args: Args) => PromiseLike<Result>
+  errorTimeAsyncFunction<Result, Args extends unknown[]>(
+    message: Awaitable<string> | Getter<Awaitable<string>>
+  , fn: (...args: Args) => Awaitable<Result>
   ): (...args: Args) => Promise<Result>
+
   fatalTimeFunction<Result, Args extends unknown[]>(
     message: string | Getter<string>
   , fn: (...args: Args) => Result
   ): (...args: Args) => Result
+  fatalTimeAsyncFunction<Result, Args extends unknown[]>(
+    message: Awaitable<string> | Getter<Awaitable<string>>
+  , fn: (...args: Args) => Awaitable<Result>
+  ): (...args: Args) => Promise<Result>
 }
 ```
 
